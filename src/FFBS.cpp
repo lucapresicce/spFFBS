@@ -7,9 +7,7 @@ using namespace Rcpp;
 using namespace arma;
 
 
-//' Forward Filtering - SingleStep
-//'
-//' @export
+// Forward Filtering - SingleStep
 //[[Rcpp::export(name = "forward_filter")]]
 List forward_filter(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const arma::mat& m, const arma::mat& C, const double& nu, const arma::mat& Psi) {
 
@@ -95,9 +93,7 @@ List forward_filter_T(const arma::cube& Y, const arma::mat& G, const arma::mat& 
 
 }
 
-//' Backward Sampling - SingleStep
-//'
-//' @export
+// Backward Sampling - SingleStep
 //[[Rcpp::export]]
 arma::cube backward_sample(const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const List& ForwFilt, const arma::cube& ThetaSmp, const arma::cube& SigmaSmp,const int& t, const int& L){
 
@@ -175,43 +171,4 @@ List backward_sample_T(const arma::mat& G, const arma::mat& P, const arma::mat& 
  return out_BS;
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

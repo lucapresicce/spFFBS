@@ -1,16 +1,15 @@
 Package: spFFBS
-Title: What the Package Does (One Line, Title Case)
+Title: Markovian Spatio-Temporal in Geospatial Artificial Intelligence Systems
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Luca", "Presicce", , "l.presicce@campus.unimib.it", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 LinkingTo: 
-    Rcpp,
-    RcppArmadillo
+    Rcpp
 Imports: 
     Rcpp
