@@ -389,7 +389,7 @@ List spFF(const arma::cube& Y, const arma::mat& G, const arma::mat& P, const arm
   // mat Psi0 = as<mat>(prior["Psi"]);
   // List out_prior = forward_filter(Y1, G, P, V, W, m0, C0, nu0, Psi0);
   arma::mat Y1 = Y.slice(0);;
-  std::vector<List> priors = std::vector(J, prior);
+  std::vector<List> priors = std::vector<List>(J, prior);
   List prior_list = Rcpp::wrap(priors);
   List out_prior = parallel_forward_filter(Y1, G, P, D, par_grid, prior_list, J, p, n, num_threads);
   out_FF(0) = List::create(Named("filtered_results") = out_prior);

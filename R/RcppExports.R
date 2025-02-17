@@ -13,14 +13,6 @@ sample_index <- function(size, length, p) {
     .Call(`_spFFBS_sample_index`, size, length, p)
 }
 
-forward_filter <- function(Y, G, P, V, W, m, C, nu, Psi) {
-    .Call(`_spFFBS_forward_filter`, Y, G, P, V, W, m, C, nu, Psi)
-}
-
-forward_filter_T <- function(Y, G, P, V, W, prior) {
-    .Call(`_spFFBS_forward_filter_T`, Y, G, P, V, W, prior)
-}
-
 backward_sample <- function(G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L) {
     .Call(`_spFFBS_backward_sample`, G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L)
 }
@@ -72,21 +64,5 @@ unified_parallel_function <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, nu
 #' @export
 spFF <- function(Y, G, P, D, par_grid, prior, num_threads = 1L) {
     .Call(`_spFFBS_spFF`, Y, G, P, D, par_grid, prior, num_threads)
-}
-
-forward_filter <- function(Y, G, P, V, W, m, C, nu, Psi) {
-    .Call(`_spFFBS_forward_filter`, Y, G, P, V, W, m, C, nu, Psi)
-}
-
-forward_filter_T <- function(Y, G, P, V, W, prior) {
-    .Call(`_spFFBS_forward_filter_T`, Y, G, P, V, W, prior)
-}
-
-backward_sample <- function(G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L) {
-    .Call(`_spFFBS_backward_sample`, G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L)
-}
-
-backward_sample_T <- function(G, P, V, W, ForwFilt, L) {
-    .Call(`_spFFBS_backward_sample_T`, G, P, V, W, ForwFilt, L)
 }
 

@@ -4,12 +4,12 @@
 \name{spFFBS-package}
 \alias{spFFBS}
 \alias{spFFBS-package}
-\title{spFFBS: What the Package Does (One Line, Title Case)}
+\title{spFFBS: Markovian Spatio-Temporal in Geospatial Artificial Intelligence Systems}
 \description{
-What the package does (one paragraph).
+Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Luca Presicce \email{l.presicce@campus.unimib.it} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
 
 }
 \keyword{internal}

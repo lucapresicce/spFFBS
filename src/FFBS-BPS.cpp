@@ -27,95 +27,95 @@ arma::uvec sample_index(const int& size, const int& length, const arma::vec& p){
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// FORWARD FILTERING
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Forward Filtering - SingleStep
-//[[Rcpp::export(name = "forward_filter")]]
-List forward_filter(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const arma::mat& m, const arma::mat& C, const double& nu, const arma::mat& Psi) {
-
-   // Filtered prior
-   arma::mat a = G * m;
-   arma::mat R = G * C * trans(G) + W;
-
-   arma::mat P_trans = trans(P);
-   // 1-Step ahead predictive
-   arma::mat f = P * a;
-   arma::mat Q = P * R * P_trans + V;
-
-   // Linear Systems Avoiding Inverse
-   arma::mat z = solve(V, P); // V^-1P
-   arma::mat x = solve(V, Y); // V^-1Y
-   arma::mat y = solve(Q, (Y-f));
-
-   // Inverse Matrices
-   arma::mat R_inv = inv(R);
-
-   // Filtered posterior
-   arma::mat C_inv = R_inv + (P_trans * z);
-   arma::mat C_new = inv(C_inv);
-   arma::mat m_new = C_new * (R_inv * a + (P_trans * x));;
-
-   // Linear System Avoiding Inverse
-   // Non-dynamic parameters posterior
-   double nu_new  = nu  + (Y.n_rows/2);
-   arma::mat Psi_new = Psi + (0.5) * ( trans(Y - f) * y );
-
-   // Return FF parameters as an R list
-   return List::create(Named("a") = a,
-                       Named("R") = R,
-                       Named("f") = f,
-                       Named("Q") = Q,
-                       Named("m") = m_new,
-                       Named("C") = C_new,
-                       Named("nu") = nu_new,
-                       Named("Psi") = Psi_new,
-                       Named("iC") = C_inv);
-
- }
-
-
-// Forward Filtering - MultipleStep
-//[[Rcpp::export]]
-List forward_filter_T(const arma::cube& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, List const& prior){
-
-   // Define Number of Temporal Slices
-   int T = Y.n_slices;
-
-   // build containers
-   List out_FF(T);
-
-   // FirstStep - Prior Information
-   arma::mat Y1 = Y.slice(0);
-   arma::mat m0 = as<arma::mat>(prior["m"]);
-   arma::mat C0 = as<arma::mat>(prior["C"]);
-   double nu0 = as<double>(prior["nu"]);
-   arma::mat Psi0 = as<arma::mat>(prior["Psi"]);
-   List out_prior = forward_filter(Y1, G, P, V, W, m0, C0, nu0, Psi0);
-   out_FF(0) = out_prior;
-
-   // OtherSteps - For Loop
-   for (int t = 1; t < T; t++) {
-
-     // Extract Old Information
-     arma::mat Yt = Y.slice(t);
-     List out_old = out_FF(t-1);
-     arma::mat m_old = as<arma::mat>(out_old["m"]);
-     arma::mat C_old = as<arma::mat>(out_old["C"]);
-     double nu_old = as<double>(out_old["nu"]);
-     arma::mat Psi_old = as<arma::mat>(out_old["Psi"]);
-
-     // Compute New Information
-     List out_new = forward_filter(Yt, G, P, V, W, m_old, C_old, nu_old, Psi_old);
-     out_FF(t) = out_new;
-
-   }
-
-   // Return List of Results
-   return out_FF;
-
- }
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// // FORWARD FILTERING
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// // Forward Filtering - SingleStep
+// //[[Rcpp::export(name = "forward_filter")]]
+// List forward_filter(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const arma::mat& m, const arma::mat& C, const double& nu, const arma::mat& Psi) {
+//
+//    // Filtered prior
+//    arma::mat a = G * m;
+//    arma::mat R = G * C * trans(G) + W;
+//
+//    arma::mat P_trans = trans(P);
+//    // 1-Step ahead predictive
+//    arma::mat f = P * a;
+//    arma::mat Q = P * R * P_trans + V;
+//
+//    // Linear Systems Avoiding Inverse
+//    arma::mat z = solve(V, P); // V^-1P
+//    arma::mat x = solve(V, Y); // V^-1Y
+//    arma::mat y = solve(Q, (Y-f));
+//
+//    // Inverse Matrices
+//    arma::mat R_inv = inv(R);
+//
+//    // Filtered posterior
+//    arma::mat C_inv = R_inv + (P_trans * z);
+//    arma::mat C_new = inv(C_inv);
+//    arma::mat m_new = C_new * (R_inv * a + (P_trans * x));;
+//
+//    // Linear System Avoiding Inverse
+//    // Non-dynamic parameters posterior
+//    double nu_new  = nu  + (Y.n_rows/2);
+//    arma::mat Psi_new = Psi + (0.5) * ( trans(Y - f) * y );
+//
+//    // Return FF parameters as an R list
+//    return List::create(Named("a") = a,
+//                        Named("R") = R,
+//                        Named("f") = f,
+//                        Named("Q") = Q,
+//                        Named("m") = m_new,
+//                        Named("C") = C_new,
+//                        Named("nu") = nu_new,
+//                        Named("Psi") = Psi_new,
+//                        Named("iC") = C_inv);
+//
+//  }
+//
+//
+// // Forward Filtering - MultipleStep
+// //[[Rcpp::export]]
+// List forward_filter_T(const arma::cube& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, List const& prior){
+//
+//    // Define Number of Temporal Slices
+//    int T = Y.n_slices;
+//
+//    // build containers
+//    List out_FF(T);
+//
+//    // FirstStep - Prior Information
+//    arma::mat Y1 = Y.slice(0);
+//    arma::mat m0 = as<arma::mat>(prior["m"]);
+//    arma::mat C0 = as<arma::mat>(prior["C"]);
+//    double nu0 = as<double>(prior["nu"]);
+//    arma::mat Psi0 = as<arma::mat>(prior["Psi"]);
+//    List out_prior = forward_filter(Y1, G, P, V, W, m0, C0, nu0, Psi0);
+//    out_FF(0) = out_prior;
+//
+//    // OtherSteps - For Loop
+//    for (int t = 1; t < T; t++) {
+//
+//      // Extract Old Information
+//      arma::mat Yt = Y.slice(t);
+//      List out_old = out_FF(t-1);
+//      arma::mat m_old = as<arma::mat>(out_old["m"]);
+//      arma::mat C_old = as<arma::mat>(out_old["C"]);
+//      double nu_old = as<double>(out_old["nu"]);
+//      arma::mat Psi_old = as<arma::mat>(out_old["Psi"]);
+//
+//      // Compute New Information
+//      List out_new = forward_filter(Yt, G, P, V, W, m_old, C_old, nu_old, Psi_old);
+//      out_FF(t) = out_new;
+//
+//    }
+//
+//    // Return List of Results
+//    return out_FF;
+//
+//  }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
