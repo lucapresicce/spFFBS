@@ -1,17 +1,20 @@
 Package: spFFBS
-Title: Markovian Spatio-Temporal in Geospatial Artificial Intelligence Systems
-Version: 0.0.0.9000
+Title: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning
+Version: 0.0.1
 Authors@R: 
     person("Luca", "Presicce", , "l.presicce@campus.unimib.it", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0009-0005-7062-3523"))
 Description: Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp,
     RcppArmadillo
 Imports: 
     Rcpp,
-    RcppArmadillo
+    RcppArmadillo,
+    spBPS,
+    mniw,
+    abind

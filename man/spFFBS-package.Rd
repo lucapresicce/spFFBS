@@ -2,14 +2,13 @@
 % Please edit documentation in R/spFFBS-package.R
 \docType{package}
 \name{spFFBS-package}
-\alias{spFFBS}
 \alias{spFFBS-package}
-\title{spFFBS: Markovian Spatio-Temporal in Geospatial Artificial Intelligence Systems}
+\title{spFFBS: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning}
 \description{
 Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
 }
 \author{
-\strong{Maintainer}: Luca Presicce \email{l.presicce@campus.unimib.it} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Luca Presicce \email{l.presicce@campus.unimib.it} (\href{https://orcid.org/0009-0005-7062-3523}{ORCID})
 
 }
 \keyword{internal}

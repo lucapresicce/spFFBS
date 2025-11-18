@@ -13,6 +13,14 @@ sample_index <- function(size, length, p) {
     .Call(`_spFFBS_sample_index`, size, length, p)
 }
 
+forward_filter <- function(Y, G, P, V, W, m, C, nu, Psi) {
+    .Call(`_spFFBS_forward_filter`, Y, G, P, V, W, m, C, nu, Psi)
+}
+
+parallel_forward_filter <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads = 1L) {
+    .Call(`_spFFBS_parallel_forward_filter`, Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads)
+}
+
 backward_sample <- function(G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L) {
     .Call(`_spFFBS_backward_sample`, G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L)
 }
@@ -25,24 +33,14 @@ weighted_backward_sample <- function(G, D, FF_t, ThetaSmp, SigmaSmp, par_grid, w
     .Call(`_spFFBS_weighted_backward_sample`, G, D, FF_t, ThetaSmp, SigmaSmp, par_grid, weights)
 }
 
-#' Weighted Backward Sampling - MultipleStep
-#'
-#' @export
-spBS <- function(G, D, ForwFilt, L, par_grid, weights) {
-    .Call(`_spFFBS_spBS`, G, D, ForwFilt, L, par_grid, weights)
+weighted_backward_sample_T <- function(G, D, ForwFilt, L, par_grid, weights) {
+    .Call(`_spFFBS_weighted_backward_sample_T`, G, D, ForwFilt, L, par_grid, weights)
 }
 
-forward_filter <- function(Y, G, P, V, W, m, C, nu, Psi) {
-    .Call(`_spFFBS_forward_filter`, Y, G, P, V, W, m, C, nu, Psi)
+weighted_backward_sample_T3 <- function(G, D, ForwFilt, L, par_grid, weights) {
+    .Call(`_spFFBS_weighted_backward_sample_T3`, G, D, ForwFilt, L, par_grid, weights)
 }
 
-parallel_forward_filter <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads = 1L) {
-    .Call(`_spFFBS_parallel_forward_filter`, Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads)
-}
-
-#' Multivariate Gamma function
-#'
-#' @export
 lmvgamma <- function(x, p) {
     .Call(`_spFFBS_lmvgamma`, x, p)
 }
@@ -55,14 +53,43 @@ parallel_matrix_t_evaluations <- function(Y, out_J, t, J, n, num_threads = 1L) {
     .Call(`_spFFBS_parallel_matrix_t_evaluations`, Y, out_J, t, J, n, num_threads)
 }
 
+optimize_weights_proj <- function(scores, lr = 0.05, max_iter = 500L) {
+    .Call(`_spFFBS_optimize_weights_proj`, scores, lr, max_iter)
+}
+
+optimize_weights_adam <- function(scores, lr = 0.05, max_iter = 1000L) {
+    .Call(`_spFFBS_optimize_weights_adam`, scores, lr, max_iter)
+}
+
+compute_Wt_cpp <- function(density_list, n, t, lr = 0.05, max_iter = 500L, n_threads = 0L) {
+    .Call(`_spFFBS_compute_Wt_cpp`, density_list, n, t, lr, max_iter, n_threads)
+}
+
 unified_parallel_function <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads = 1L) {
     .Call(`_spFFBS_unified_parallel_function`, Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads)
 }
 
-#' Parallel BPS-Forward Filtering - Multiple Step
-#'
-#' @export
 spFF <- function(Y, G, P, D, par_grid, prior, num_threads = 1L) {
     .Call(`_spFFBS_spFF`, Y, G, P, D, par_grid, prior, num_threads)
+}
+
+spFF3 <- function(Y, G, P, D, par_grid, prior, num_threads = 1L) {
+    .Call(`_spFFBS_spFF3`, Y, G, P, D, par_grid, prior, num_threads)
+}
+
+predict_ffbs <- function(G, P, V, W, a, R, nu, Psi, L) {
+    .Call(`_spFFBS_predict_ffbs`, G, P, V, W, a, R, nu, Psi, L)
+}
+
+temporal_forecast <- function(G, P, D, par_grid, ForwFilt, weights, horiz, L) {
+    .Call(`_spFFBS_temporal_forecast`, G, P, D, par_grid, ForwFilt, weights, horiz, L)
+}
+
+temporal_forecast3 <- function(G, P, D, par_grid, ForwFilt, weights, horiz, L) {
+    .Call(`_spFFBS_temporal_forecast3`, G, P, D, par_grid, ForwFilt, weights, horiz, L)
+}
+
+spatial_interpolation <- function(G, P, Xu, D_s, D_u, D_us, par_grid, ForwFilt, weights, t, L) {
+    .Call(`_spFFBS_spatial_interpolation`, G, P, Xu, D_s, D_u, D_us, par_grid, ForwFilt, weights, t, L)
 }
 
