@@ -222,8 +222,10 @@ spFFBS <- function(
 
   # === Forecasting ===========================================================
   if (do_forecast) {
+    if (is.null(tnew)) stop("If (do_forecast = TRUE), you must supply tnew > 0.")
     if (dim(G)[3] != tmax + tnew || dim(P)[3] != tmax + tnew) {
-      stop("For forecasting (do_forecast = TRUE), G and P must contain tmax + tnew slices covering the out-of-sample period.")
+      stop("For forecasting (do_forecast = TRUE),
+           G and P must contain (tmax + tnew) slices covering the out-of-sample period.")
     }
 
     cat("🔮 Running Temporal Forecast (TF)...\n")
@@ -247,63 +249,61 @@ spFFBS <- function(
   # === Spatial Interpolation =================================================
   if (do_spatial) {
     if (is.null(spatial)) {
-      stop("If do_spatial = TRUE, provide spatial=list(crd=, crdtilde=, Xtilde=, t=).")
+      stop("If (do_spatial = TRUE), provide spatial=list(crd=, crdtilde=, Xtilde=, t=).")
     }
 
     # Validate time index
     if (is.null(spatial$t)) {
-      stop("When do_spatial = TRUE, you must specify spatial$t (time index).")
+      stop("When (do_spatial = TRUE), you must specify spatial$t (time index).")
     }
 
-    t_pick <- spatial$t
-
-    if (!is.numeric(t_pick) || length(t_pick) != 1 ||
-        t_pick < 1 || t_pick > (tmax + tnew)) {
-      stop("spatial$t must be a single integer in 1:(tmax - 1).")
+    t_vec <- spatial$t
+    if (!is.numeric(t_vec)) stop("spatial$t must be numeric.")
+    if (any(t_vec < 1) || any(t_vec > dim(G)[3])) {
+      stop("spatial$t contains times outside available G slices.")
     }
-
-    cat("🗺️ Running Spatial Interpolation ...\n")
 
     crd      <- spatial$crd
     crdtilde <- spatial$crdtilde
     Xtilde   <- spatial$Xtilde
     u <- nrow(crdtilde)
 
-    # Compute cross-distance matrix for spatial interpolation
+    # Distances
     D_us <- spBPS::arma_dist(rbind(crdtilde, crd))[1:u, -(1:u)]
     D_tilde <- spBPS::arma_dist(crdtilde)
 
-    if (t_pick <= tmax) {
-      # In-sample
-      FF_t <- out_FF
-      weights_t <- cbind(
-        matrix(rep(1 / J, J), ncol = 1),
-        Wglobal_dyn)
+    # Prepare outputs
+    spatial_out <- list()
 
-    } else {
-      # Out-of-sample: extend weights and FF list
-      L_oos <- t_pick - tmax
-      Wglobal_dyn_oos <- cbind(
-        matrix(rep(1 / J, J), ncol = 1),
-        Wglobal_dyn,
-        matrix(rep(Wglobal_dyn[, tmax - 1], L_oos), ncol = L_oos)
-      )
-
-      FF_t <- out_FF
-      FF_t[(tmax+1):(tmax+tnew)] <- rep(list(out_FF[[tmax]]), tnew)
-      weights_t <- Wglobal_dyn_oos
-    }
+    cat("🗺️ Running Spatial Interpolation ...\n")
 
     tictoc::tic()
-    out_SI <- spatial_interpolation(
-      G = G[,,t_pick], P = P[,,t_pick], Xu = Xtilde[,,t_pick],
-      D_s = D, D_u = D_tilde, D_us = D_us,
-      par_grid = par_grid, ForwFilt = FF_t,
-      weights = weights_t, t = t_pick, L = L
-    )
+    for (t_pick in t_vec) {
+
+      # dynamic weight matrix
+      W_dyn <- cbind(
+        matrix(rep(1 / J, J), ncol = 1),
+        matrix(rep(as.numeric(Wglobal), t_pick - 1), nrow = J)
+      )
+
+      # replicate last FF if needed
+      FF_t <- out_FF
+      if (t_pick > length(out_FF)) {
+        FF_t[[t_pick]] <- out_FF[[tmax]]
+      }
+
+      out_SI <- spatial_interpolation(
+        G = G[,,t_pick], P = P[,,t_pick], Xu = Xtilde[,,t_pick],
+        D_s = D, D_u = D_tilde, D_us = D_us,
+        par_grid = par_grid, ForwFilt = FF_t,
+        weights = W_dyn, t = t_pick, L = L
+      )
+
+      spatial_out[[ paste0("t", t_pick) ]] <- out_SI
+    }
     tictoc::toc()
 
-    result$spatial <- out_SI
+    result$spatial <- spatial_out
     cat("✔️ Spatial interpolation completed.\n\n")
   }
 
