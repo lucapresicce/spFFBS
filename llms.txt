@@ -39,8 +39,6 @@ library(spFFBS)
 Cool! You are ready to start, now you too could perform ***fast &
 feasible*** Bayesian spatiotemporal modeling!
 
-------------------------------------------------------------------------
-
 ## Contacts
 
 |            |                                               |
