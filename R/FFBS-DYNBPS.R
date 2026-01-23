@@ -162,7 +162,7 @@ spFFBS <- function(
   }
 
   cat("🔧 Building parameter grid ... ")
-  par_grid <- spBPS::expand_grid_cpp(rev(grid$tau), rev(grid$phi))
+  par_grid <- spBPS:::expand_grid_cpp(rev(grid$tau), rev(grid$phi))
   J <- nrow(par_grid)
   cat("OK (", J, "models )\n\n")
 
@@ -269,8 +269,8 @@ spFFBS <- function(
     u <- nrow(crdtilde)
 
     # Distances
-    D_us <- spBPS::arma_dist(rbind(crdtilde, crd))[1:u, -(1:u)]
-    D_tilde <- spBPS::arma_dist(crdtilde)
+    D_us <- spBPS:::arma_dist(rbind(crdtilde, crd))[1:u, -(1:u)]
+    D_tilde <- spBPS:::arma_dist(crdtilde)
 
     # Prepare outputs
     spatial_out <- list()
