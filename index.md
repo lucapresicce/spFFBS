@@ -22,7 +22,7 @@ if (!require(devtools)) {
 ```
 
 Once you have installed *devtools*, we can proceed. Let’s install the
-`spBPS` package!
+`spFFBS` package!
 
 ``` r
 devtools::install_github("lucapresicce/spFFBS")
