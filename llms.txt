@@ -55,3 +55,9 @@ feasible*** Bayesian spatiotemporal modeling!
 - [`spFFBS()`](https://lucapresicce.github.io/spFFBS/reference/spFFBS.md)
   : spFFBS: Spatiotemporal Bayesian Pipeline (friendly interface)
 
+# Articles
+
+### All vignettes
+
+- [Dynamic Bayesian Predictive Stacking for Spatiotemporal Analysis -
+  Tutotial](https://lucapresicce.github.io/spFFBS/articles/tutorial.md):

@@ -11,7 +11,7 @@ forecasting, and spatial interpolation."><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">spFFBS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,10 @@ forecasting, and spatial interpolation."><meta property="og:image" content="http
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/tutorial.html">Dynamic Bayesian Predictive Stacking for Spatiotemporal Analysis - Tutotial</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
       </ul></div>
@@ -118,6 +122,75 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
     <p>A list with the components executed according to the flags.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
+<span class="r-in"><span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="va">q</span><span class="op">*</span><span class="va">t</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">q</span>, <span class="va">t</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">P</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span><span class="op">*</span><span class="va">t</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">n</span>, <span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span>, <span class="va">t</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span><span class="op">*</span><span class="va">t</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span>, <span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span>, <span class="va">t</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="fl">2</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">D</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">dist</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">priors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"m"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span><span class="op">+</span><span class="va">p</span>, <span class="va">q</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               <span class="st">"C"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">p</span><span class="op">+</span><span class="va">n</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               <span class="st">"nu"</span> <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>               <span class="st">"Psi"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">hyperpar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>tau <span class="op">=</span> <span class="fl">0.5</span>, phi <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">spFFBS</span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, G <span class="op">=</span> <span class="va">G</span>, P <span class="op">=</span> <span class="va">P</span>, D <span class="op">=</span> <span class="va">D</span>, grid <span class="op">=</span> <span class="va">hyperpar</span>, prior <span class="op">=</span> <span class="va">priors</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          Welcome to spFFBS Bayesian Engine</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Building parameter grid ... OK ( 1 models )</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Running Forward Filtering (FF)...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.003 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> FF completed.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Computing stacking weights ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Computing Dynamic Bayesian Predictive</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Stacking Weights (Wi)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Found:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    + Time points:   5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    + Locations:     50 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    + Models (J):    1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Using SERIAL backend (foreach sequential)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Evaluating model scores and optimizing weights...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weight computation: 0.032 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Weight matrix computed successfully.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Dimensions:  50 x 1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total time: 0.04 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.041 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Global weights computed.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      spFFBS pipeline completed successfully!</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

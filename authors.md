@@ -8,13 +8,13 @@
 ## Citation
 
 Presicce L (2026). *spFFBS: Spatiotemporal Propagation for Multivariate
-Bayesian Dynamic Learning*. R package version 0.0.1,
+Bayesian Dynamic Learning*. R package version 0.0-1,
 <https://lucapresicce.github.io/spFFBS/>.
 
     @Manual{,
       title = {spFFBS: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning},
       author = {Luca Presicce},
       year = {2026},
-      note = {R package version 0.0.1},
+      note = {R package version 0.0-1},
       url = {https://lucapresicce.github.io/spFFBS/},
     }
