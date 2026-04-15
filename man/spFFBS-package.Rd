@@ -5,7 +5,16 @@
 \alias{spFFBS-package}
 \title{spFFBS: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://lucapresicce.github.io/spFFBS/}
+}
+
 }
 \author{
 \strong{Maintainer}: Luca Presicce \email{l.presicce@campus.unimib.it} (\href{https://orcid.org/0009-0005-7062-3523}{ORCID})

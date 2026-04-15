@@ -57,3 +57,29 @@ A user-friendly, modular wrapper for running a Bayesian spatiotemporal
 filtering + weighting pipeline, with optional backward sampling,
 forecasting, and spatial interpolation.
 }
+\examples{
+\donttest{
+
+n <- 50
+t <- 5
+p <- 2
+q <- 2
+
+Y <- array(rnorm(n*q*t), dim = c(n, q, t))
+P <- array(rnorm(n*(p+n)*t), dim = c(n, (p+n), t))
+G <- array(rnorm((p+n)*(p+n)*t), dim = c((p+n), (p+n), t))
+coords <- matrix(runif(n*2), ncol = 2)
+D <- as.matrix(dist(coords))
+
+priors <- list("m" = matrix(0, n+p, q),
+               "C" = diag(p+n),
+               "nu" = 3,
+               "Psi" = diag(q))
+
+hyperpar <- list(tau = 0.5, phi = 1)
+
+res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
+
+}
+
+}

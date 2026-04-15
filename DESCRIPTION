@@ -1,21 +1,31 @@
 Package: spFFBS
 Title: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning
-Version: 0.0.1
+Version: 0.0-1
 Authors@R: 
     person("Luca", "Presicce", , "l.presicce@campus.unimib.it", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0005-7062-3523"))
 Description: Provides parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches.
-License: GPL (>= 3)
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp,
     RcppArmadillo
-Imports: 
-    Rcpp,
-    RcppArmadillo,
+Imports:
     spBPS,
-    mniw,
+    Rcpp (>= 1.0.10),
+    foreach,
+    tictoc,
     abind
+Suggests:
+    doParallel,
+    mniw,
+    MBA,
+    ggplot2,
+    patchwork,
+    reshape2,
+    knitr,
+    rmarkdown
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+VignetteBuilder: knitr
 URL: https://lucapresicce.github.io/spFFBS/
