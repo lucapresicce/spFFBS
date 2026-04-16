@@ -112,7 +112,8 @@ par_grid <- list(tau = alfa_seq, phi = phi_seq)
 
 ### Dynamic BPS fit
 
-Posterior inference, forecast and spatial interpolation call:
+Posterior inference, forecast and spatial interpolation call (using 1
+computing core):
 
 ``` r
 out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
@@ -126,7 +127,8 @@ out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
                       spatial = list(crd = crd,
                                      crdtilde = crdtilde,
                                      Xtilde = Xtilde,
-                                     t = tmax+tnew))
+                                     t = tmax+tnew),
+                      num_threads = 1)
 ```
 
 ### Beta posterior inference
@@ -144,10 +146,10 @@ beta_post <- theta_post[1:p, 1:q,,]
 # Global weights
 Wglobal <- out$Wglobal
 J <- nrow(Wglobal)
-
-set.seed(1)
-# Posterior sampling
 L <- 200
+
+# Posterior sampling
+set.seed(1)
 indL <- sample(1:J, L, Wglobal, rep = T)
 Sigma_post <- sapply(1:L, function(l) {
   mniw::riwish(1, nu = out$FF[[tmax]]$filtered_results[[indL[l]]]$nu,
@@ -156,7 +158,7 @@ Sigma_post <- sapply(1:L, function(l) {
 Sigma_map <- apply(Sigma_post, c(1,2), median)
 ```
 
-![](tutorial_files/figure-html/unnamed-chunk-9-1.png)
+![](tutorial_files/figure-html/unnamed-chunk-10-1.png)
 
 ### Multivariate outcome temporal forecasts
 
@@ -164,7 +166,7 @@ Sigma_map <- apply(Sigma_post, c(1,2), median)
 Y_forc <- out$forecast$Y_pred
 ```
 
-![](tutorial_files/figure-html/unnamed-chunk-11-1.png)
+![](tutorial_files/figure-html/unnamed-chunk-12-1.png)
 
 ### Unobserved spacetime-points interpolation
 
@@ -175,7 +177,7 @@ here time point 30
 Y_pred <- sapply(1:L, function(l){out$spatial[[1]][[l]][1:u,]}, simplify = "array")
 ```
 
-![](tutorial_files/figure-html/unnamed-chunk-13-1.png)
+![](tutorial_files/figure-html/unnamed-chunk-14-1.png)
 
 ------------------------------------------------------------------------
 

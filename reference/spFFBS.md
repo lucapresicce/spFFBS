@@ -19,7 +19,8 @@ spFFBS(
   do_spatial = FALSE,
   L = 200,
   tnew = NULL,
-  spatial = NULL
+  spatial = NULL,
+  num_threads = 1
 )
 ```
 
@@ -77,6 +78,10 @@ spFFBS(
 
   Optional list for spatial: list(crd = , crdtilde = , Xtilde = )
 
+- num_threads:
+
+  Number of cores for parallel computing (default: 1) .
+
 ## Value
 
 A list with the components executed according to the flags.
@@ -131,15 +136,15 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Using SERIAL backend (foreach sequential)
 #> 
 #> Evaluating model scores and optimizing weights...
-#> Weight computation: 0.032 sec elapsed
+#> Weight computation: 0.026 sec elapsed
 #> 
 #>  Weight matrix computed successfully.
 #>    Dimensions:  50 x 1 
 #> 
 #> ====================================================
 #> 
-#> Total time: 0.04 sec elapsed
-#> 0.041 sec elapsed
+#> Total time: 0.032 sec elapsed
+#> 0.032 sec elapsed
 #> Global weights computed.
 #> 
 #> ====================================================

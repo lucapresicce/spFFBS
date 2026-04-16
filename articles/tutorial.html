@@ -180,7 +180,8 @@ square.</p>
 <div class="section level3">
 <h3 id="dynamic-bps-fit">Dynamic BPS fit<a class="anchor" aria-label="anchor" href="#dynamic-bps-fit"></a>
 </h3>
-<p>Posterior inference, forecast and spatial interpolation call:</p>
+<p>Posterior inference, forecast and spatial interpolation call (using 1
+computing core):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu">spFFBS</span><span class="fu">::</span><span class="fu"><a href="../reference/spFFBS.html">spFFBS</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, G <span class="op">=</span> <span class="va">G</span>, P <span class="op">=</span> <span class="va">P</span>, D <span class="op">=</span> <span class="va">D</span>,</span>
 <span>                      grid <span class="op">=</span> <span class="va">par_grid</span>, </span>
@@ -193,7 +194,8 @@ square.</p>
 <span>                      spatial <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>crd <span class="op">=</span> <span class="va">crd</span>,</span>
 <span>                                     crdtilde <span class="op">=</span> <span class="va">crdtilde</span>,</span>
 <span>                                     Xtilde <span class="op">=</span> <span class="va">Xtilde</span>,</span>
-<span>                                     t <span class="op">=</span> <span class="va">tmax</span><span class="op">+</span><span class="va">tnew</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>                                     t <span class="op">=</span> <span class="va">tmax</span><span class="op">+</span><span class="va">tnew</span><span class="op">)</span>,</span>
+<span>                      num_threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="beta-posterior-inference">Beta posterior inference<a class="anchor" aria-label="anchor" href="#beta-posterior-inference"></a>
@@ -210,24 +212,24 @@ square.</p>
 <code class="sourceCode R"><span><span class="co"># Global weights</span></span>
 <span><span class="va">Wglobal</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">Wglobal</span></span>
 <span><span class="va">J</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">Wglobal</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co"># Posterior sampling</span></span>
 <span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
+<span></span>
+<span><span class="co"># Posterior sampling</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">indL</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">J</span>, <span class="va">L</span>, <span class="va">Wglobal</span>, rep <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">Sigma_post</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">L</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">mniw</span><span class="fu">::</span><span class="fu"><a href="https://mlysy.github.io/mniw/reference/Wishart-dist.html" class="external-link">riwish</a></span><span class="op">(</span><span class="fl">1</span>, nu <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">FF</span><span class="op">[[</span><span class="va">tmax</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">filtered_results</span><span class="op">[[</span><span class="va">indL</span><span class="op">[</span><span class="va">l</span><span class="op">]</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">nu</span>,</span>
 <span>               Psi <span class="op">=</span> <span class="va">out</span><span class="op">$</span><span class="va">FF</span><span class="op">[[</span><span class="va">tmax</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">filtered_results</span><span class="op">[[</span><span class="va">indL</span><span class="op">[</span><span class="va">l</span><span class="op">]</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">Psi</span><span class="op">)</span> <span class="op">}</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="st">"array"</span><span class="op">)</span></span>
 <span><span class="va">Sigma_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">Sigma_post</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="va">median</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="696"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="696"></p>
 </div>
 <div class="section level3">
 <h3 id="multivariate-outcome-temporal-forecasts">Multivariate outcome temporal forecasts<a class="anchor" aria-label="anchor" href="#multivariate-outcome-temporal-forecasts"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Y_forc</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">$</span><span class="va">forecast</span><span class="op">$</span><span class="va">Y_pred</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="696"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="696"></p>
 </div>
 <div class="section level3">
 <h3 id="unobserved-spacetime-points-interpolation">Unobserved spacetime-points interpolation<a class="anchor" aria-label="anchor" href="#unobserved-spacetime-points-interpolation"></a>
@@ -236,7 +238,7 @@ square.</p>
 here time point 30</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Y_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">L</span>, <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span><span class="op">{</span><span class="va">out</span><span class="op">$</span><span class="va">spatial</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="va">l</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">u</span>,<span class="op">]</span><span class="op">}</span>, simplify <span class="op">=</span> <span class="st">"array"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="696"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="696"></p>
 <hr>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-presicce2026" class="csl-entry">

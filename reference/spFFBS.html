@@ -58,7 +58,8 @@ forecasting, and spatial interpolation.</p>
 <span>  do_spatial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  L <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  tnew <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  spatial <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  spatial <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  num_threads <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -116,6 +117,10 @@ forecasting, and spatial interpolation.</p>
 <dd><p>Optional list for spatial:
 list(crd = , crdtilde = , Xtilde = )</p></dd>
 
+
+<dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
+<dd><p>Number of cores for parallel computing (default: 1) .</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -171,15 +176,15 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using SERIAL backend (foreach sequential)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Evaluating model scores and optimizing weights...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Weight computation: 0.032 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weight computation: 0.026 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Weight matrix computed successfully.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Dimensions:  50 x 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total time: 0.04 sec elapsed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.041 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total time: 0.032 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.032 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Global weights computed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
