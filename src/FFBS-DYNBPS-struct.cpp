@@ -713,7 +713,6 @@ Rcpp::List unified_parallel_function(const arma::mat& Y,
     nu_vec[j]  = Rcpp::as<double>(res_jprec["nu"]);
   }
 
-  arma::uword n_uword = static_cast<arma::uword>(n);
   std::vector<FFResult> results_cpp(J);
   arma::mat density_evaluations(n, J, arma::fill::zeros);
 
