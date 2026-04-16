@@ -136,7 +136,7 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Using SERIAL backend (foreach sequential)
 #> 
 #> Evaluating model scores and optimizing weights...
-#> Weight computation: 0.026 sec elapsed
+#> Weight computation: 0.027 sec elapsed
 #> 
 #>  Weight matrix computed successfully.
 #>    Dimensions:  50 x 1 
@@ -144,7 +144,7 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> ====================================================
 #> 
 #> Total time: 0.032 sec elapsed
-#> 0.032 sec elapsed
+#> 0.033 sec elapsed
 #> Global weights computed.
 #> 
 #> ====================================================
