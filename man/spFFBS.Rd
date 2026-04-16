@@ -16,7 +16,8 @@ spFFBS(
   do_spatial = FALSE,
   L = 200,
   tnew = NULL,
-  spatial = NULL
+  spatial = NULL,
+  num_threads = 1
 )
 }
 \arguments{
@@ -48,6 +49,8 @@ spFFBS(
 
 \item{spatial}{Optional list for spatial:
 list(crd = , crdtilde = , Xtilde = )}
+
+\item{num_threads}{Number of cores for parallel computing (default: 1) .}
 }
 \value{
 A list with the components executed according to the flags.

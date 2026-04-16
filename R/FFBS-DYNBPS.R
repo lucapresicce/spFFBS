@@ -96,10 +96,21 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
   # ---------------------------------------------------------------------------
   # Name the models
   # ---------------------------------------------------------------------------
-  colnames(Wi) <- paste0(
-    "Model ", 1:J,
-    "  [ tau=", rev(tau), ", phi=", rev(phi), " ]"
+  par_grid <- spBPS:::expand_grid_cpp(rev(tau), rev(phi))
+  colnames(Wi) <- paste0("M", seq_len(nrow(par_grid)))
+
+  model_labels <- sprintf(
+    "Model %d [ tau = %.2f, phi = %.2f ]",
+    seq_len(nrow(par_grid)),
+    par_grid[,1],
+    par_grid[,2]
   )
+  attr(Wi, "model_labels") <- model_labels
+
+  # colnames(Wi) <- paste0(
+  #   "Model ", 1:J,
+  #   "  [ tau=", rev(tau), ", phi=", rev(phi), " ]"
+  # )
 
   cat("\n Weight matrix computed successfully.\n")
   cat("   Dimensions: ", nrow(Wi), "x", ncol(Wi), "\n\n")
@@ -138,6 +149,8 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
 #' @param spatial Optional list for spatial:
 #'   list(crd = , crdtilde = , Xtilde = )
 #'
+#' @param num_threads Number of cores for parallel computing (default: 1) .
+#'
 #' @return A list with the components executed according to the flags.
 #'
 #' @examples
@@ -175,7 +188,8 @@ spFFBS <- function(
     do_spatial = FALSE,
     L = 200,
     tnew = NULL,
-    spatial = NULL
+    spatial = NULL,
+    num_threads =1
 ) {
 
   cat("\n====================================================\n")
@@ -200,7 +214,7 @@ spFFBS <- function(
   tictoc::tic()
   out_FF <- spFF3(
     Y = Y, G = G, P = P, D = D,
-    par_grid = par_grid, prior = prior, num_threads = 1
+    par_grid = par_grid, prior = prior, num_threads = num_threads
   )
   tictoc::toc()
   cat("FF completed.\n\n")

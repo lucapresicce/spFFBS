@@ -24,45 +24,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// forward_filter
-Rcpp::List forward_filter(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const arma::mat& m, const arma::mat& C, const double& nu, const arma::mat& Psi);
-RcppExport SEXP _spFFBS_forward_filter(SEXP YSEXP, SEXP GSEXP, SEXP PSEXP, SEXP VSEXP, SEXP WSEXP, SEXP mSEXP, SEXP CSEXP, SEXP nuSEXP, SEXP PsiSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type G(GSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type P(PSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type V(VSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type W(WSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type m(mSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type C(CSEXP);
-    Rcpp::traits::input_parameter< const double& >::type nu(nuSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type Psi(PsiSEXP);
-    rcpp_result_gen = Rcpp::wrap(forward_filter(Y, G, P, V, W, m, C, nu, Psi));
-    return rcpp_result_gen;
-END_RCPP
-}
-// parallel_forward_filter
-Rcpp::List parallel_forward_filter(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& D, const arma::mat& par_grid, List FF_prec, int J, int p, int n, int num_threads);
-RcppExport SEXP _spFFBS_parallel_forward_filter(SEXP YSEXP, SEXP GSEXP, SEXP PSEXP, SEXP DSEXP, SEXP par_gridSEXP, SEXP FF_precSEXP, SEXP JSEXP, SEXP pSEXP, SEXP nSEXP, SEXP num_threadsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type G(GSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type P(PSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type D(DSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type par_grid(par_gridSEXP);
-    Rcpp::traits::input_parameter< List >::type FF_prec(FF_precSEXP);
-    Rcpp::traits::input_parameter< int >::type J(JSEXP);
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(parallel_forward_filter(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads));
-    return rcpp_result_gen;
-END_RCPP
-}
 // backward_sample
 arma::cube backward_sample(const arma::mat& G, const arma::mat& P, const arma::mat& V, const arma::mat& W, const List& ForwFilt, const arma::cube& ThetaSmp, const arma::cube& SigmaSmp, const int& t, const int& L);
 RcppExport SEXP _spFFBS_backward_sample(SEXP GSEXP, SEXP PSEXP, SEXP VSEXP, SEXP WSEXP, SEXP ForwFiltSEXP, SEXP ThetaSmpSEXP, SEXP SigmaSmpSEXP, SEXP tSEXP, SEXP LSEXP) {
@@ -174,22 +135,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// parallel_matrix_t_evaluations
-arma::mat parallel_matrix_t_evaluations(const arma::cube& Y, const Rcpp::List& out_J, int t, int J, int n, int num_threads);
-RcppExport SEXP _spFFBS_parallel_matrix_t_evaluations(SEXP YSEXP, SEXP out_JSEXP, SEXP tSEXP, SEXP JSEXP, SEXP nSEXP, SEXP num_threadsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::cube& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::List& >::type out_J(out_JSEXP);
-    Rcpp::traits::input_parameter< int >::type t(tSEXP);
-    Rcpp::traits::input_parameter< int >::type J(JSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(parallel_matrix_t_evaluations(Y, out_J, t, J, n, num_threads));
-    return rcpp_result_gen;
-END_RCPP
-}
 // optimize_weights_proj
 NumericVector optimize_weights_proj(NumericMatrix scores, double lr, int max_iter);
 RcppExport SEXP _spFFBS_optimize_weights_proj(SEXP scoresSEXP, SEXP lrSEXP, SEXP max_iterSEXP) {
@@ -233,7 +178,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // unified_parallel_function
-Rcpp::List unified_parallel_function(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& D, const arma::mat& par_grid, List FF_prec, int J, int p, int n, int num_threads);
+Rcpp::List unified_parallel_function(const arma::mat& Y, const arma::mat& G, const arma::mat& P, const arma::mat& D, const arma::mat& par_grid, Rcpp::List FF_prec, int J, int p, int n, int num_threads);
 RcppExport SEXP _spFFBS_unified_parallel_function(SEXP YSEXP, SEXP GSEXP, SEXP PSEXP, SEXP DSEXP, SEXP par_gridSEXP, SEXP FF_precSEXP, SEXP JSEXP, SEXP pSEXP, SEXP nSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -243,7 +188,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::mat& >::type P(PSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type D(DSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type par_grid(par_gridSEXP);
-    Rcpp::traits::input_parameter< List >::type FF_prec(FF_precSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type FF_prec(FF_precSEXP);
     Rcpp::traits::input_parameter< int >::type J(JSEXP);
     Rcpp::traits::input_parameter< int >::type p(pSEXP);
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
@@ -252,25 +197,8 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// spFF
-Rcpp::List spFF(const arma::cube& Y, const arma::mat& G, const arma::mat& P, const arma::mat& D, const arma::mat& par_grid, List const& prior, int num_threads);
-RcppExport SEXP _spFFBS_spFF(SEXP YSEXP, SEXP GSEXP, SEXP PSEXP, SEXP DSEXP, SEXP par_gridSEXP, SEXP priorSEXP, SEXP num_threadsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::cube& >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type G(GSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type P(PSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type D(DSEXP);
-    Rcpp::traits::input_parameter< const arma::mat& >::type par_grid(par_gridSEXP);
-    Rcpp::traits::input_parameter< List const& >::type prior(priorSEXP);
-    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(spFF(Y, G, P, D, par_grid, prior, num_threads));
-    return rcpp_result_gen;
-END_RCPP
-}
 // spFF3
-Rcpp::List spFF3(const arma::cube& Y, const arma::cube& G, const arma::cube& P, const arma::mat& D, const arma::mat& par_grid, List const& prior, int num_threads);
+Rcpp::List spFF3(const arma::cube& Y, const arma::cube& G, const arma::cube& P, const arma::mat& D, const arma::mat& par_grid, Rcpp::List const& prior, int num_threads);
 RcppExport SEXP _spFFBS_spFF3(SEXP YSEXP, SEXP GSEXP, SEXP PSEXP, SEXP DSEXP, SEXP par_gridSEXP, SEXP priorSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -280,7 +208,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::cube& >::type P(PSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type D(DSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type par_grid(par_gridSEXP);
-    Rcpp::traits::input_parameter< List const& >::type prior(priorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List const& >::type prior(priorSEXP);
     Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
     rcpp_result_gen = Rcpp::wrap(spFF3(Y, G, P, D, par_grid, prior, num_threads));
     return rcpp_result_gen;
@@ -365,8 +293,6 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_spFFBS_sample_index", (DL_FUNC) &_spFFBS_sample_index, 3},
-    {"_spFFBS_forward_filter", (DL_FUNC) &_spFFBS_forward_filter, 9},
-    {"_spFFBS_parallel_forward_filter", (DL_FUNC) &_spFFBS_parallel_forward_filter, 10},
     {"_spFFBS_backward_sample", (DL_FUNC) &_spFFBS_backward_sample, 9},
     {"_spFFBS_backward_sample_T", (DL_FUNC) &_spFFBS_backward_sample_T, 6},
     {"_spFFBS_weighted_backward_sample", (DL_FUNC) &_spFFBS_weighted_backward_sample, 7},
@@ -374,12 +300,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_spFFBS_weighted_backward_sample_T3", (DL_FUNC) &_spFFBS_weighted_backward_sample_T3, 6},
     {"_spFFBS_lmvgamma", (DL_FUNC) &_spFFBS_lmvgamma, 2},
     {"_spFFBS_log_matrix_t_density", (DL_FUNC) &_spFFBS_log_matrix_t_density, 5},
-    {"_spFFBS_parallel_matrix_t_evaluations", (DL_FUNC) &_spFFBS_parallel_matrix_t_evaluations, 6},
     {"_spFFBS_optimize_weights_proj", (DL_FUNC) &_spFFBS_optimize_weights_proj, 3},
     {"_spFFBS_optimize_weights_adam", (DL_FUNC) &_spFFBS_optimize_weights_adam, 3},
     {"_spFFBS_compute_Wt_cpp", (DL_FUNC) &_spFFBS_compute_Wt_cpp, 6},
     {"_spFFBS_unified_parallel_function", (DL_FUNC) &_spFFBS_unified_parallel_function, 10},
-    {"_spFFBS_spFF", (DL_FUNC) &_spFFBS_spFF, 7},
     {"_spFFBS_spFF3", (DL_FUNC) &_spFFBS_spFF3, 7},
     {"_spFFBS_predict_ffbs", (DL_FUNC) &_spFFBS_predict_ffbs, 9},
     {"_spFFBS_temporal_forecast", (DL_FUNC) &_spFFBS_temporal_forecast, 8},

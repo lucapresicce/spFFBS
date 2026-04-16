@@ -129,7 +129,7 @@ par_grid <- list(tau = alfa_seq, phi = phi_seq)
 ```
 
 ### Dynamic BPS fit
-Posterior inference, forecast and spatial interpolation call:
+Posterior inference, forecast and spatial interpolation call (using 1 computing core):
 ```{r, results=F}
 out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
                       grid = par_grid, 
@@ -142,7 +142,8 @@ out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
                       spatial = list(crd = crd,
                                      crdtilde = crdtilde,
                                      Xtilde = Xtilde,
-                                     t = tmax+tnew))
+                                     t = tmax+tnew),
+                      num_threads = 1)
 ```
 
 ### Beta posterior inference
@@ -198,16 +199,23 @@ legend(x = grconvertX(0.92, from = "ndc"),
 par(oldpar)
 ```
 
+```{r, echo=FALSE}
+# Global weights
+Wglobal <- out$Wglobal
+models_labels <- attr(out$Wi, "model_labels")
+# rownames(Wglobal) <- models_labels
+# Wglobal
+```
 
 ### Sigma posterior inference
 ```{r}
 # Global weights
 Wglobal <- out$Wglobal
 J <- nrow(Wglobal)
-
-set.seed(1)
-# Posterior sampling
 L <- 200
+
+# Posterior sampling
+set.seed(1)
 indL <- sample(1:J, L, Wglobal, rep = T)
 Sigma_post <- sapply(1:L, function(l) {
   mniw::riwish(1, nu = out$FF[[tmax]]$filtered_results[[indL[l]]]$nu,

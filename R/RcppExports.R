@@ -13,14 +13,6 @@ sample_index <- function(size, length, p) {
     .Call(`_spFFBS_sample_index`, size, length, p)
 }
 
-forward_filter <- function(Y, G, P, V, W, m, C, nu, Psi) {
-    .Call(`_spFFBS_forward_filter`, Y, G, P, V, W, m, C, nu, Psi)
-}
-
-parallel_forward_filter <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads = 1L) {
-    .Call(`_spFFBS_parallel_forward_filter`, Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads)
-}
-
 backward_sample <- function(G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L) {
     .Call(`_spFFBS_backward_sample`, G, P, V, W, ForwFilt, ThetaSmp, SigmaSmp, t, L)
 }
@@ -49,10 +41,6 @@ log_matrix_t_density <- function(X, M, U, V, nu) {
     .Call(`_spFFBS_log_matrix_t_density`, X, M, U, V, nu)
 }
 
-parallel_matrix_t_evaluations <- function(Y, out_J, t, J, n, num_threads = 1L) {
-    .Call(`_spFFBS_parallel_matrix_t_evaluations`, Y, out_J, t, J, n, num_threads)
-}
-
 optimize_weights_proj <- function(scores, lr = 0.05, max_iter = 500L) {
     .Call(`_spFFBS_optimize_weights_proj`, scores, lr, max_iter)
 }
@@ -67,10 +55,6 @@ compute_Wt_cpp <- function(density_list, n, t, lr = 0.05, max_iter = 500L, n_thr
 
 unified_parallel_function <- function(Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads = 1L) {
     .Call(`_spFFBS_unified_parallel_function`, Y, G, P, D, par_grid, FF_prec, J, p, n, num_threads)
-}
-
-spFF <- function(Y, G, P, D, par_grid, prior, num_threads = 1L) {
-    .Call(`_spFFBS_spFF`, Y, G, P, D, par_grid, prior, num_threads)
 }
 
 spFF3 <- function(Y, G, P, D, par_grid, prior, num_threads = 1L) {
