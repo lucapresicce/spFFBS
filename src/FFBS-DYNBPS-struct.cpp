@@ -652,14 +652,16 @@ NumericMatrix compute_Wt_cpp(Rcpp::List density_list,
                           int n_threads = 0) {
 Rcout << "Computing Dynamic Bayesian Predictive Stacking Weights (C++) ...\n";
 
-if (n_threads > 0)
-#ifdef _OPENMP
- omp_set_num_threads(n_threads);
-#endif
-
 int J = as<NumericMatrix>(density_list[0]).ncol();  // number of models
 NumericMatrix Wi(n, J);  // result matrix
 
+if (n_threads > 0) {
+#ifdef _OPENMP
+ omp_set_num_threads(n_threads);
+#endif
+}
+
+{
 #ifdef _OPENMP
 #pragma omp parallel for
 #endif
@@ -674,6 +676,7 @@ for (int i = 0; i < n; ++i) {
  Rcpp::NumericVector w = optimize_weights_proj(epd_i, lr, max_iter);
  for (int j = 0; j < J; ++j)
    Wi(i, j) = w[j];
+}
 }
 
 return Wi;
@@ -725,10 +728,6 @@ Rcpp::List unified_parallel_function(const arma::mat& Y,
 
     arma::mat K_j = arma::exp(-phi_j * D);
 
-    if (K_j.n_rows != n_uword || K_j.n_cols != n_uword) {
-      continue;
-    }
-
     arma::mat W_j = arma::join_cols(
       arma::join_rows(arma::eye(p, p), arma::zeros(p, n)),
       arma::join_rows(arma::zeros(n, p), K_j)
@@ -736,7 +735,7 @@ Rcpp::List unified_parallel_function(const arma::mat& Y,
 
     arma::mat V_j = ((1.0 - tau_j) / tau_j) * arma::eye(n, n);
 
-    // ---- PURE C++ CALL ----
+    // FF call
     FFResult res = forward_filter_cpp(
       Y, G, P, V_j, W_j,
       m_vec[j], C_vec[j], nu_vec[j], Psi_vec[j]
@@ -744,7 +743,7 @@ Rcpp::List unified_parallel_function(const arma::mat& Y,
 
     results_cpp[j] = res;
 
-    // ---- Density ----
+    // Density evakuation
     for (int g = 0; g < n; g++) {
 
       if ((arma::uword)g >= Y.n_rows) continue;
