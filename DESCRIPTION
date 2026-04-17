@@ -10,7 +10,7 @@ LinkingTo:
     RcppArmadillo
 Imports:
     spBPS,
-    Rcpp (>= 1.1.1),
+    Rcpp (>= 1.0.12),
     foreach,
     tictoc,
     abind
