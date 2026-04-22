@@ -80,8 +80,12 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      - name: Update Rcpp on Windows        # ← ADDED
+      - name: Update Rcpp on Windows
         if: runner.os == 'Windows'
+        run: install.packages("Rcpp")
+        shell: Rscript {0}
+      - name: Update Rcpp on macOS
+        if: runner.os == 'macOS'
         run: install.packages("Rcpp")
         shell: Rscript {0}
       - uses: r-hub/actions/run-check@v1

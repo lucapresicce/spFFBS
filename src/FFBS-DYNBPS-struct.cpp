@@ -114,7 +114,10 @@ arma::mat H_inv = C_inv + (G_trans * W_inv * G);
 arma::mat H = arma::inv(H_inv);
 
 // Set the environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMNorm_R = mniw["rMNorm"];
 arma::cube Theta_ss(ThetaSmp.n_rows,ThetaSmp.n_cols,L);
 Theta_ss.zeros();
@@ -140,7 +143,10 @@ Rcpp::List backward_sample_T(const arma::mat& G, const arma::mat& P, const arma:
 int Tmax = ForwFilt.size()-1;
 
 // Set the environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMNIW_R = mniw["rMNIW"];
 
 // build containers
@@ -198,7 +204,10 @@ int JJ = uniqmod.size();
 arma::mat G_trans = arma::trans(G);
 
 // Set the environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMNorm_R = mniw["rMNorm"];
 arma::cube Theta_ss(ThetaSmp.n_rows,ThetaSmp.n_cols,L);
 
@@ -271,7 +280,10 @@ int J = par_grid.n_rows;
 int Tmax = ForwFilt.size()-1;
 
 // Set the Environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMNIW_R = mniw["rMNIW"];
 
 // Results Containers
@@ -359,7 +371,10 @@ int J = par_grid.n_rows;
 int Tmax = ForwFilt.size()-1;
 
 // Set the Environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMNIW_R = mniw["rMNIW"];
 
 // Results Containers
@@ -814,7 +829,10 @@ arma::mat f_pred = P * a_new;
 arma::mat Q_pred = P * R_new * Pt + V;
 
 // Set the environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMT_R = mniw["rMT"];
 
 // Predictive samples
@@ -1018,7 +1036,10 @@ arma::uvec uniqind = find_unique(model_idx);
 int JJ = uniqmod.size();
 
 // Set the environment
-Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+// Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
+Rcpp::Environment mniw = Rcpp::as<Rcpp::Environment>(
+  Rcpp::Function("getNamespace")("mniw")
+);
 Rcpp::Function rMT_R = mniw["rMT"];
 
 // Models loop
