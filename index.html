@@ -64,19 +64,15 @@
 <a class="anchor" aria-label="anchor" href="#spffbs-"></a>
 </h1>
 </div>
-<!-- badges:
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/spFFBS?color=blue)](https://CRAN.R-project.org/package=spFFBS)
-[![Downloads](https://cranlogs.r-pkg.org/badges/spFFBS?color=orange)](https://CRAN.R-project.org/package=spFFBS)
-[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/spFFBS?color=green)](https://CRAN.R-project.org/package=spFFBS)
-[![R-CMD-check](https://github.com/SPan-18/spFFBS/actions/workflows/Standard-CI.yaml/badge.svg)](https://github.com/lucapresicce/spFFBS/actions/workflows/Standard-CI.yaml)
-end -->
+<!-- badges: end -->
+<p><a href="https://CRAN.R-project.org/package=spFFBS" class="external-link"><img src="https://www.r-pkg.org/badges/version/spFFBS?color=blue" alt="CRAN_Status_Badge"></a> <a href="https://CRAN.R-project.org/package=spFFBS" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/spFFBS?color=orange" alt="Downloads"></a> <a href="https://CRAN.R-project.org/package=spFFBS" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/spFFBS?color=green" alt="CRAN RStudio mirror downloads"></a></p>
 <!--
 # Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning
 -->
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This package provides the principal parallelized implementation of forward filtering backward sampling algorithm, along with dynamic Bayesian predictive stacking to achieve exact posterior inference avoiding simulation-based approaches for multivariate spatiotemporal models.</p>
+<p>This package provides the implementation of the Forward Filtering Backward Sampling (FFBS) algorithm with Dynamic Bayesian Predictive Stacking (DYNBPS) integration for multivariate spatiotemporal models, as introduced in <em>“<a href="https://arxiv.org/abs/2602.08544" class="external-link">Adaptive Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling</a>” (<a href="https://lucapresicce.github.io/" class="external-link"><strong>Presicce</strong></a> and Banerjee, 2026+)</em>. To guarantee the reproducibility of scientific results, in the <a href="https://github.com/lucapresicce/Markovian-Spatiotemporal-Propagation" class="external-link">Markovian-Spatiotemporal-Propagation</a> repository also includes all the scripts of code used for simulations, data analysis, and results presented in the Manuscript and its Supplemental material.</p>
 <!--
 This package provides the principal functions to perform accelerated modeling for univariate and multivariate spatial regressions. The package is used mostly within the novel working paper *"Bayesian Transfer Learning for Artificially Intelligent Geospatial Systems: A Predictive Stacking Approach" ([**Luca Presicce**](https://lucapresicce.github.io/) and Sudipto Banerjee, 2024+)"*. To guarantee the reproducibility of scientific results, in the [Bayesian-Transfer-Learning-for-GeoAI](https://github.com/lucapresicce/Bayesian-Transfer-Learning-for-GeoAI) repository are also available all the scripts of code used for simulations, data analysis, and results presented in the Manuscript and its Supplemental material.
 -->
@@ -84,26 +80,23 @@ This package provides the principal functions to perform accelerated modeling fo
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<!--
-If installing from CRAN, use the following.
-```r
-install.packages("spStack")
-```
--->
-<p>Since the package is not already available on CRAN (already submitted, and hopefully soon available), we use the <code>devtools</code> R package to install. Then, check for its presence on your device, otherwise install it:</p>
+<p>If installing from CRAN, use the following.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"spFFBS"</span><span class="op">)</span></span></code></pre></div>
+<p>For a quick installation of the development version, run the following command in R. We use the <code>devtools</code> R package to install. Then, check for its presence on your device, otherwise install it:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Once you have installed <em>devtools</em>, we can proceed. Let’s install the <code>spFFBS</code> package!</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"lucapresicce/spFFBS"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Once successfully installed, load the library in R.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lucapresicce.github.io/spFFBS/">spFFBS</a></span><span class="op">)</span></span></code></pre></div>
 <p>Cool! You are ready to start, now you too could perform <strong><em>fast &amp; feasible</em></strong> Bayesian spatiotemporal modeling!</p>
 <!--
@@ -113,7 +106,12 @@ install.packages("spStack")
 <div class="section level2">
 <h2 id="contacts">Contacts<a class="anchor" aria-label="anchor" href="#contacts"></a>
 </h2>
-<table class="table"><tbody>
+<table class="table">
+<colgroup>
+<col width="44%">
+<col width="55%">
+</colgroup>
+<tbody>
 <tr class="odd">
 <td align="left">Author</td>
 <td align="center">Luca Presicce (<a href="mailto:l.presicce@campus.unimib.it" class="email">l.presicce@campus.unimib.it</a>)</td>
@@ -122,16 +120,29 @@ install.packages("spStack")
 <td align="left">Maintainer</td>
 <td align="center">Luca Presicce (<a href="mailto:l.presicce@campus.unimib.it" class="email">l.presicce@campus.unimib.it</a>)</td>
 </tr>
-</tbody></table>
+<tr class="odd">
+<td align="left">Reference</td>
+<td align="center">
+<a href="https://lucapresicce.github.io/" class="external-link"><strong>Luca Presicce</strong></a> and Sudipto Banerjee (2026+) <em>“<a href="https://arxiv.org/abs/2602.08544" class="external-link">Adaptive Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling</a>”</em>
+</td>
+</tr>
+</tbody>
+</table>
 <!--
-| Reference | [**Luca Presicce**](https://lucapresicce.github.io/) and Sudipto Banerjee (2025+) *"Bayesian Transfer Learning for Artificially Intelligent Geospatial Systems: A Predictive Stacking Approach"*  |
 --><!--
 Maintainer: l.presicce@campus.unimib.it
 Reference: **Luca Presicce** and Sudipto Banerjee (2024+) *"Accelerated Meta-Kriging for massive Spatial dataset"*
 -->
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=spFFBS" class="external-link">View on CRAN</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>

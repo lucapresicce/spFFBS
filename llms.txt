@@ -1,19 +1,35 @@
 # spFFBS
 
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/spFFBS?color=blue)](https://CRAN.R-project.org/package=spFFBS)
+[![Downloads](https://cranlogs.r-pkg.org/badges/spFFBS?color=orange)](https://CRAN.R-project.org/package=spFFBS)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/spFFBS?color=green)](https://CRAN.R-project.org/package=spFFBS)
+
 ## Overview
 
-This package provides the principal parallelized implementation of
-forward filtering backward sampling algorithm, along with dynamic
-Bayesian predictive stacking to achieve exact posterior inference
-avoiding simulation-based approaches for multivariate spatiotemporal
-models.
+This package provides the implementation of the Forward Filtering
+Backward Sampling (FFBS) algorithm with Dynamic Bayesian Predictive
+Stacking (DYNBPS) integration for multivariate spatiotemporal models, as
+introduced in *“[Adaptive Markovian Spatiotemporal Transfer Learning in
+Multivariate Bayesian Modeling](https://arxiv.org/abs/2602.08544)”
+([**Presicce**](https://lucapresicce.github.io/) and Banerjee, 2026+)*.
+To guarantee the reproducibility of scientific results, in the
+[Markovian-Spatiotemporal-Propagation](https://github.com/lucapresicce/Markovian-Spatiotemporal-Propagation)
+repository also includes all the scripts of code used for simulations,
+data analysis, and results presented in the Manuscript and its
+Supplemental material.
 
 ## Installation
 
-Since the package is not already available on CRAN (already submitted,
-and hopefully soon available), we use the `devtools` R package to
-install. Then, check for its presence on your device, otherwise install
-it:
+If installing from CRAN, use the following.
+
+``` r
+install.packages("spFFBS")
+```
+
+For a quick installation of the development version, run the following
+command in R. We use the `devtools` R package to install. Then, check
+for its presence on your device, otherwise install it:
 
 ``` r
 if (!require(devtools)) {
@@ -41,10 +57,11 @@ feasible*** Bayesian spatiotemporal modeling!
 
 ## Contacts
 
-|            |                                               |
-|:-----------|:---------------------------------------------:|
-| Author     | Luca Presicce (<l.presicce@campus.unimib.it>) |
-| Maintainer | Luca Presicce (<l.presicce@campus.unimib.it>) |
+|            |                                                                                                                                                                                                                 |
+|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Author     |                                                                                  Luca Presicce (<l.presicce@campus.unimib.it>)                                                                                  |
+| Maintainer |                                                                                  Luca Presicce (<l.presicce@campus.unimib.it>)                                                                                  |
+| Reference  | [**Luca Presicce**](https://lucapresicce.github.io/) and Sudipto Banerjee (2026+) *“[Adaptive Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling](https://arxiv.org/abs/2602.08544)”* |
 
 # Package index
 

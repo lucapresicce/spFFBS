@@ -121,7 +121,7 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Building parameter grid ... OK ( 1 models )
 #> 
 #> Running Forward Filtering (FF)...
-#> 0.003 sec elapsed
+#> 0.004 sec elapsed
 #> FF completed.
 #> 
 #> Computing stacking weights ...
@@ -139,15 +139,15 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Using SERIAL backend (foreach sequential)
 #> 
 #> Evaluating model scores and optimizing weights...
-#> Weight computation: 0.023 sec elapsed
+#> Weight computation: 0.028 sec elapsed
 #> 
 #>  Weight matrix computed successfully.
 #>    Dimensions:  50 x 1 
 #> 
 #> ====================================================
 #> 
-#> Total time: 0.029 sec elapsed
-#> 0.029 sec elapsed
+#> Total time: 0.036 sec elapsed
+#> 0.037 sec elapsed
 #> Global weights computed.
 #> 
 #> ====================================================
