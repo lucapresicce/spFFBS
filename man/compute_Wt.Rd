@@ -4,7 +4,7 @@
 \alias{compute_Wt}
 \title{compute_Wt: Dynamic Bayesian Predictive Stacking Weights}
 \usage{
-compute_Wt(out_FF, tau, phi, parallel = FALSE)
+compute_Wt(out_FF, tau, phi, parallel = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{out_FF}{Output of spFF3 (list of filtering results).}
@@ -14,6 +14,8 @@ compute_Wt(out_FF, tau, phi, parallel = FALSE)
 \item{phi}{Vector of phi grid values (only used for column naming).}
 
 \item{parallel}{Logical; use parallel backend (foreach + doParallel)? Default FALSE.}
+
+\item{verbose}{Logical; print progress messages to the console? Default TRUE.}
 }
 \value{
 Matrix of weights of size n x J

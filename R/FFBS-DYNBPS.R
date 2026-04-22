@@ -9,15 +9,18 @@ utils::globalVariables("i")
 #' @param tau Vector of tau grid values (only used for column naming).
 #' @param phi Vector of phi grid values (only used for column naming).
 #' @param parallel Logical; use parallel backend (foreach + doParallel)? Default FALSE.
+#' @param verbose Logical; print progress messages to the console? Default TRUE.
 #'
 #' @return Matrix of weights of size n x J
 #' @keywords internal
-compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
+compute_Wt <- function(out_FF, tau, phi, parallel = FALSE, verbose = TRUE) {
 
-  cat("\n====================================================\n")
-  cat("      Computing Dynamic Bayesian Predictive\n")
-  cat("             Stacking Weights (Wi)\n")
-  cat("====================================================\n\n")
+  if(verbose) {
+    cat("\n====================================================\n")
+    cat("      Computing Dynamic Bayesian Predictive\n")
+    cat("             Stacking Weights (Wi)\n")
+    cat("====================================================\n\n")
+  }
 
   tictoc::tic("Total time")
 
@@ -34,27 +37,29 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
   n  <- nrow(density0)
   J  <- ncol(density0)
 
-  cat("Found:\n")
-  cat("   + Time points:  ", tmax, "\n")
-  cat("   + Locations:    ", n, "\n")
-  cat("   + Models (J):   ", J, "\n\n")
+  if(verbose) {
+    cat("Found:\n")
+    cat("   + Time points:  ", tmax, "\n")
+    cat("   + Locations:    ", n, "\n")
+    cat("   + Models (J):   ", J, "\n\n")
+  }
 
   # ---------------------------------------------------------------------------
   # Choose backend
   # ---------------------------------------------------------------------------
   if (parallel) {
-    cat("Using PARALLEL backend (foreach + registered cluster)\n")
+    if(verbose) cat("Using PARALLEL backend (foreach + registered cluster)\n")
     `%run%` <- foreach::`%dopar%`
   } else {
-    cat("Using SERIAL backend (foreach sequential)\n")
+    if(verbose) cat("Using SERIAL backend (foreach sequential)\n")
     `%run%` <- foreach::`%do%`
   }
-  cat("\n")
+  if(verbose) cat("\n")
 
   # ---------------------------------------------------------------------------
   # MAIN LOOP over locations
   # ---------------------------------------------------------------------------
-  cat("Evaluating model scores and optimizing weights...\n")
+  if(verbose) cat("Evaluating model scores and optimizing weights...\n")
   tictoc::tic("Weight computation")
 
   Wi <- foreach::foreach(i = 1:n, .combine = "rbind", .packages = "spBPS") %run% {
@@ -112,9 +117,11 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
   #   "  [ tau=", rev(tau), ", phi=", rev(phi), " ]"
   # )
 
-  cat("\n Weight matrix computed successfully.\n")
-  cat("   Dimensions: ", nrow(Wi), "x", ncol(Wi), "\n\n")
-  cat("====================================================\n\n")
+  if(verbose) {
+    cat("\n Weight matrix computed successfully.\n")
+    cat("   Dimensions: ", nrow(Wi), "x", ncol(Wi), "\n\n")
+    cat("====================================================\n\n")
+  }
 
   tictoc::toc()
 
@@ -149,13 +156,12 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
 #' @param spatial Optional list for spatial:
 #'   list(crd = , crdtilde = , Xtilde = )
 #'
-#' @param num_threads Number of cores for parallel computing (default: 1) .
+#' @param num_threads Number of cores for parallel computing (default: 1)
+#' @param verbose Logical; print progress messages to the console? (default: TRUE)
 #'
 #' @return A list with the components executed according to the flags.
 #'
 #' @examples
-#' \donttest{
-#'
 #' n <- 50
 #' t <- 5
 #' p <- 2
@@ -176,7 +182,6 @@ compute_Wt <- function(out_FF, tau, phi, parallel = FALSE) {
 #'
 #' res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #'
-#' }
 #'
 #' @export
 spFFBS <- function(
@@ -189,43 +194,46 @@ spFFBS <- function(
     L = 200,
     tnew = NULL,
     spatial = NULL,
-    num_threads =1
+    num_threads = 1,
+    verbose = TRUE
 ) {
 
-  cat("\n====================================================\n")
-  cat("         Welcome to spFFBS Bayesian Engine\n")
-  cat("====================================================\n\n")
+  if(verbose) {
+    cat("\n====================================================\n")
+    cat("         Welcome to spFFBS Bayesian Engine\n")
+    cat("====================================================\n\n")
+  }
 
   # --- Parameter grid --------------------------------------------------------
   if (is.null(grid$tau) || is.null(grid$phi)) {
     stop("'grid' must be a list(tau = ..., phi = ...)")
   }
 
-  cat("Building parameter grid ... ")
+  if(verbose) cat("Building parameter grid ... ")
   par_grid <- spBPS:::expand_grid_cpp(rev(grid$tau), rev(grid$phi))
   J <- nrow(par_grid)
-  cat("OK (", J, "models )\n\n")
+  if(verbose) cat("OK (", J, "models )\n\n")
 
   tmax <- dim(Y)[3]
   n <- dim(Y)[1]
 
   # --- Forward Filtering -----------------------------------------------------
-  cat("Running Forward Filtering (FF)...\n")
+  if(verbose) cat("Running Forward Filtering (FF)...\n")
   tictoc::tic()
   out_FF <- spFF3(
     Y = Y, G = G, P = P, D = D,
     par_grid = par_grid, prior = prior, num_threads = num_threads
   )
   tictoc::toc()
-  cat("FF completed.\n\n")
+  if(verbose) cat("FF completed.\n\n")
 
   # --- Weight Computation ----------------------------------------------------
-  cat("Computing stacking weights ...\n")
+  if(verbose) cat("Computing stacking weights ...\n")
   tictoc::tic()
-  Wi <- compute_Wt(out_FF, tau = grid$tau, phi = grid$phi)
+  Wi <- compute_Wt(out_FF, tau = grid$tau, phi = grid$phi, verbose = verbose)
   tictoc::toc()
   Wglobal <- matrix(colMeans(Wi))
-  cat("Global weights computed.\n\n")
+  if(verbose) cat("Global weights computed.\n\n")
 
   # Initialize result list
   result <- list(
@@ -240,7 +248,7 @@ spFFBS <- function(
 
   # === Backward Sampling =====================================================
   if (do_BS) {
-    cat("Running Backward Sampling (BS)...\n")
+    if(verbose) cat("Running Backward Sampling (BS)...\n")
     tictoc::tic()
 
     repeat {
@@ -256,7 +264,7 @@ spFFBS <- function(
     }
 
     tictoc::toc()
-    cat("Backward sampling completed.\n\n")
+    if(verbose) cat("Backward sampling completed.\n\n")
     result$BS <- out_BS
   }
 
@@ -268,7 +276,7 @@ spFFBS <- function(
            G and P must contain (tmax + tnew) slices covering the out-of-sample period.")
     }
 
-    cat("Running Temporal Forecast (TF)...\n")
+    if(verbose) cat("Running Temporal Forecast (TF)...\n")
     Wglobal_dyn <- matrix(rep(as.numeric(Wglobal), tmax - 1), nrow = J)
 
     tictoc::tic()
@@ -281,7 +289,7 @@ spFFBS <- function(
     )
     tictoc::toc()
     Y_pred <- abind::abind(out_TF, along = 4)
-    cat("Forecasting completed.\n\n")
+    if(verbose) cat("Forecasting completed.\n\n")
 
     result$forecast <- list(out_TF = out_TF, Y_pred = Y_pred)
   }
@@ -315,7 +323,7 @@ spFFBS <- function(
     # Prepare outputs
     spatial_out <- list()
 
-    cat("Running Spatial Interpolation ...\n")
+    if(verbose) cat("Running Spatial Interpolation ...\n")
 
     tictoc::tic()
     for (t_pick in t_vec) {
@@ -344,12 +352,14 @@ spFFBS <- function(
     tictoc::toc()
 
     result$spatial <- spatial_out
-    cat("Spatial interpolation completed.\n\n")
+    if(verbose) cat("Spatial interpolation completed.\n\n")
   }
 
-  cat("====================================================\n")
-  cat("     spFFBS pipeline completed successfully!\n")
-  cat("====================================================\n\n")
+  if(verbose) {
+    cat("====================================================\n")
+    cat("     spFFBS pipeline completed successfully!\n")
+    cat("====================================================\n\n")
+  }
 
   return(result)
 }

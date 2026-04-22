@@ -187,17 +187,11 @@ int n = D.n_rows;
 int p = G.n_rows - n;
 int J = par_grid.n_rows;
 int L = ThetaSmp.n_slices;
-// Rcpp::Rcout << "n: " << n << std::endl;
-// Rcpp::Rcout << "p: " << p << std::endl;
-// Rcpp::Rcout << "J: " << J << std::endl;
-// Rcpp::Rcout << "L: " << L << std::endl;
 
 // Sample the models indexes
 arma::uvec model_idx = sample_index(J, L, weights);
 arma::uvec uniqmod = arma::unique(model_idx);
 arma::uvec uniqind = find_unique(model_idx);
-// Rcpp::Rcout << "uniqmod: " << uniqmod << std::endl;
-// Rcpp::Rcout << "uniqind: " << uniqind << std::endl;
 int JJ = uniqmod.size();
 
 // Precomputing
@@ -239,8 +233,6 @@ for (int j = 0; j < JJ; j++) {
    Named("W_inv") = W_inv);
 }
 
-// Rcpp::Rcout << "ok" << std::endl;
-
 // Samples loop
 Theta_ss.zeros();
 for (int l = 0; l < L; l++) {
@@ -249,10 +241,6 @@ for (int l = 0; l < L; l++) {
  arma::uword l_mod = model_idx(l);
  arma::uvec lmod_idx = arma::find(uniqmod == l_mod);
  arma::uword lmod = lmod_idx(0);
- // Rcpp::Rcout << "l mod: " << l_mod << std::endl;
- // Rcpp::Rcout << "Models.size: " << Models.size() << std::endl;
- // Rcpp::Rcout << "l mod idx: " << lmod_idx << std::endl;
- // Rcpp::Rcout << "l mod: " << lmod << std::endl;
  List ModJ = Models(lmod);
  arma::mat m = ModJ["m"];
  arma::mat C_inv = ModJ["C_inv"];
@@ -298,10 +286,6 @@ arma::uvec last_idx = sample_index(J, L, weights);
 arma::uvec uniqmod = arma::unique(last_idx);
 arma::uvec uniqind = find_unique(last_idx);
 int JJ = uniqmod.size();
-// Rcpp::Rcout << "last idx: " << last_idx << std::endl;
-// Rcpp::Rcout << "uniq mod: " << uniqmod << std::endl;
-// Rcpp::Rcout << "uniq ind: " << uniqind << std::endl;
-// Rcpp::Rcout << "JJ: " << JJ << std::endl;
 
 // Number of samples
 arma::uvec LLv = arma::hist(last_idx);
@@ -318,8 +302,6 @@ for (int j = 0; j < JJ; j++) {
  arma::uword j_mod = uniqmod(j);
  List FF_j = FF_T(j_mod);
 
- // Rcpp::Rcout << "FF_j: " << FF_j << std::endl;
-
  arma::mat m_j = as<arma::mat>(FF_j["m"]);
  arma::mat C_j = as<arma::mat>(FF_j["C"]);
  double nu_j = as<double>(FF_j["nu"]);
@@ -327,12 +309,6 @@ for (int j = 0; j < JJ; j++) {
 
  // Number of Samples
  int LL = LLi(j);
- // Rcpp::Rcout << "LLv: " << LLv << std::endl;
- // Rcpp::Rcout << "LLv ind: " << LL_indices << std::endl;
- // Rcpp::Rcout << "LLi: " << LLi << std::endl;
- // Rcpp::Rcout << "uniq mod: " << uniqmod << std::endl;
- // Rcpp::Rcout << "j mod: " << j_mod << std::endl;
- // Rcpp::Rcout << "LL: " << LL << std::endl;
 
  // Posterior Ssample
  List ThetaSigmaT = as<List>(rMNIW_R(Named("n", LL), Named("Lambda", m_j), Named("Sigma", C_j), Named("nu", nu_j), Named("Psi", Psi_j)));
@@ -348,7 +324,6 @@ for (int j = 0; j < JJ; j++) {
 
 // LastStep - Filtered Posterior Sample
 arma::uvec shuffle_indices = arma::randperm(L);
-// Rcpp::Rcout << "shuffle ind: " << shuffle_indices << std::endl;
 arma::cube ThetaSmpTmax = ThetaSmpT.slices(shuffle_indices);
 arma::cube SigmaSmpTmax = SigmaSmpT.slices(shuffle_indices);
 arma::cube out_BStmax = weighted_backward_sample(G, D, FF_T, ThetaSmpTmax, SigmaSmpTmax, par_grid, weights);
@@ -399,10 +374,6 @@ arma::uvec last_idx = sample_index(J, L, weights);
 arma::uvec uniqmod = arma::unique(last_idx);
 arma::uvec uniqind = find_unique(last_idx);
 int JJ = uniqmod.size();
-// Rcpp::Rcout << "last idx: " << last_idx << std::endl;
-// Rcpp::Rcout << "uniq mod: " << uniqmod << std::endl;
-// Rcpp::Rcout << "uniq ind: " << uniqind << std::endl;
-// Rcpp::Rcout << "JJ: " << JJ << std::endl;
 
 // Number of samples
 arma::uvec LLv = arma::hist(last_idx);
@@ -419,8 +390,6 @@ for (int j = 0; j < JJ; j++) {
  arma::uword j_mod = uniqmod(j);
  List FF_j = FF_T(j_mod);
 
- // Rcpp::Rcout << "FF_j: " << FF_j << std::endl;
-
  arma::mat m_j = as<arma::mat>(FF_j["m"]);
  arma::mat C_j = as<arma::mat>(FF_j["C"]);
  double nu_j = as<double>(FF_j["nu"]);
@@ -428,12 +397,6 @@ for (int j = 0; j < JJ; j++) {
 
  // Number of Samples
  int LL = LLi(j);
- // Rcpp::Rcout << "LLv: " << LLv << std::endl;
- // Rcpp::Rcout << "LLv ind: " << LL_indices << std::endl;
- // Rcpp::Rcout << "LLi: " << LLi << std::endl;
- // Rcpp::Rcout << "uniq mod: " << uniqmod << std::endl;
- // Rcpp::Rcout << "j mod: " << j_mod << std::endl;
- // Rcpp::Rcout << "LL: " << LL << std::endl;
 
  // Posterior Ssample
  List ThetaSigmaT = as<List>(rMNIW_R(Named("n", LL), Named("Lambda", m_j), Named("Sigma", C_j), Named("nu", nu_j), Named("Psi", Psi_j)));
@@ -449,7 +412,6 @@ for (int j = 0; j < JJ; j++) {
 
 // LastStep - Filtered Posterior Sample
 arma::uvec shuffle_indices = arma::randperm(L);
-// Rcpp::Rcout << "shuffle ind: " << shuffle_indices << std::endl;
 arma::cube ThetaSmpTmax = ThetaSmpT.slices(shuffle_indices);
 arma::cube SigmaSmpTmax = SigmaSmpT.slices(shuffle_indices);
 arma::mat GT = G.slice(Tmax);
@@ -650,7 +612,6 @@ NumericMatrix compute_Wt_cpp(Rcpp::List density_list,
                           double lr = 0.05,
                           int max_iter = 500,
                           int n_threads = 0) {
-Rcout << "Computing Dynamic Bayesian Predictive Stacking Weights (C++) ...\n";
 
 int J = as<NumericMatrix>(density_list[0]).ncol();  // number of models
 NumericMatrix Wi(n, J);  // result matrix
@@ -843,17 +804,14 @@ Rcpp::List predict_ffbs(const arma::mat& G, const arma::mat& P, const arma::mat&
 // Pre-computing
 arma::mat Gt = arma::trans(G);
 arma::mat Pt = arma::trans(P);
-// Rcpp::Rcout << "ok! " << std::endl;
 
 // Predictive parameters
 arma::mat a_new = G * a;
 arma::mat R_new = G * R * Gt + W;
-// Rcpp::Rcout << "ok! " << std::endl;
 
 // 1-Step ahead predictive
 arma::mat f_pred = P * a_new;
 arma::mat Q_pred = P * R_new * Pt + V;
-// Rcpp::Rcout << "ok! " << std::endl;
 
 // Set the environment
 Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
@@ -888,20 +846,15 @@ int th = tmax + horiz;
 List pred(th);
 List predictions(th);
 
-// Rcpp::Rcout << "ok 1 " << std::endl;
-
 for (int t = 0; t < th; t++) {
 
  // Select the weights
  arma::uword w_idx = std::min(t, tmax-1);
- // Rcpp::Rcout << "w_idx: " << w_idx << std::endl;
- // Rcpp::Rcout << "w ncol: " << weights.n_cols << std::endl;
  arma::vec weights_t;
  if(t < 1) {
    weights_t = arma::vec(J, arma::fill::ones) / J;
  } else {
    weights_t = weights.col(w_idx-1);
-   // Rcpp::Rcout << "weights: " << weights.col(w_idx-1) << std::endl;
  }
 
  // Sample the model
@@ -918,8 +871,6 @@ for (int t = 0; t < th; t++) {
  double tau_j = par_grid(j, 0);
  arma::mat V_j = ((1 - tau_j) / tau_j) * eye(n, n);
 
- // Rcpp::Rcout << "ok 2 " << std::endl;
-
  // Predictive samples
  if (t < tmax) {
    // Extract FF results
@@ -929,7 +880,6 @@ for (int t = 0; t < th; t++) {
    List pred_t = predict_ffbs(G, P, V_j, W_j, FF_j["m"], FF_j["C"], FF_j["nu"], FF_j["Psi"], L);
    pred[t] = pred_t;
    predictions[t] = pred_t["Y"];
-   // Rcpp::Rcout << "ok 3 " << std::endl;
  } else {
    // Extract Previous results
    List pred_prev = pred[t-1];
@@ -939,7 +889,6 @@ for (int t = 0; t < th; t++) {
    List pred_t = predict_ffbs(G, P, V_j, W_j, pred_prev["a"], pred_prev["R"], FF_j["nu"], FF_j["Psi"], L);
    pred[t] = pred_t;
    predictions[t] = pred_t["Y"];
-   // Rcpp::Rcout << "ok 4 " << std::endl;
  }
 
 }
@@ -968,20 +917,15 @@ int th = tmax + horiz;
 List pred(th);
 List predictions(th);
 
-// Rcpp::Rcout << "ok 1 " << std::endl;
-
 for (int t = 0; t < th; t++) {
 
  // Select the weights
  arma::uword w_idx = std::min(t, tmax-1);
- // Rcpp::Rcout << "w_idx: " << w_idx << std::endl;
- // Rcpp::Rcout << "w ncol: " << weights.n_cols << std::endl;
  arma::vec weights_t;
  if(t < 1) {
    weights_t = arma::vec(J, arma::fill::ones) / J;
  } else {
    weights_t = weights.col(w_idx-1);
-   // Rcpp::Rcout << "weights: " << weights.col(w_idx-1) << std::endl;
  }
 
  // Sample the model
@@ -998,8 +942,6 @@ for (int t = 0; t < th; t++) {
  double tau_j = par_grid(j, 0);
  arma::mat V_j = ((1 - tau_j) / tau_j) * eye(n, n);
 
- // Rcpp::Rcout << "ok 2 " << std::endl;
-
  // Predictive samples
  if (t < tmax) {
    // Extract FF results
@@ -1011,7 +953,6 @@ for (int t = 0; t < th; t++) {
    List pred_t = predict_ffbs(Gt, Pt, V_j, W_j, FF_j["m"], FF_j["C"], FF_j["nu"], FF_j["Psi"], L);
    pred[t] = pred_t;
    predictions[t] = pred_t["Y"];
-   // Rcpp::Rcout << "ok 3 " << std::endl;
  } else {
    // Extract Previous results
    List pred_prev = pred[t-1];
@@ -1023,7 +964,6 @@ for (int t = 0; t < th; t++) {
    List pred_t = predict_ffbs(Gt, Pt, V_j, W_j, pred_prev["a"], pred_prev["R"], FF_j["nu"], FF_j["Psi"], L);
    pred[t] = pred_t;
    predictions[t] = pred_t["Y"];
-   // Rcpp::Rcout << "ok 4 " << std::endl;
  }
 
 }
@@ -1063,8 +1003,6 @@ List predictions(L);
 arma::vec w0 = arma::vec(J, arma::fill::ones) / J;
 arma::mat weightst = arma::join_horiz(w0, weights);
 arma::vec weights_t = weightst.col(t-1);
-// Rcpp::Rcout << weightst.n_cols << std::endl;
-// Rcpp::Rcout << t-1 << std::endl;
 
 // arma::vec weights_t;
 // if((t-1) < 1) {
@@ -1083,7 +1021,6 @@ int JJ = uniqmod.size();
 Rcpp::Environment mniw = Rcpp::Environment::namespace_env("mniw");
 Rcpp::Function rMT_R = mniw["rMT"];
 
-// Rcpp::Rcout << "ok 1 " << std::endl;
 // Models loop
 List Models(JJ);
 for (int j = 0; j < JJ; j++) {
@@ -1125,7 +1062,6 @@ for (int j = 0; j < JJ; j++) {
    Named("Psi") = Psi_t);
 }
 
-// Rcpp::Rcout << "ok 1 " << std::endl;
 // Samples loop
 for (int l = 0; l < L; l++) {
 

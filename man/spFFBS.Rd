@@ -17,7 +17,8 @@ spFFBS(
   L = 200,
   tnew = NULL,
   spatial = NULL,
-  num_threads = 1
+  num_threads = 1,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -50,7 +51,9 @@ spFFBS(
 \item{spatial}{Optional list for spatial:
 list(crd = , crdtilde = , Xtilde = )}
 
-\item{num_threads}{Number of cores for parallel computing (default: 1) .}
+\item{num_threads}{Number of cores for parallel computing (default: 1)}
+
+\item{verbose}{Logical; print progress messages to the console? (default: TRUE)}
 }
 \value{
 A list with the components executed according to the flags.
@@ -61,8 +64,6 @@ filtering + weighting pipeline, with optional backward sampling,
 forecasting, and spatial interpolation.
 }
 \examples{
-\donttest{
-
 n <- 50
 t <- 5
 p <- 2
@@ -83,6 +84,5 @@ hyperpar <- list(tau = 0.5, phi = 1)
 
 res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 
-}
 
 }
