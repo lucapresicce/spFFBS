@@ -1,6 +1,6 @@
 # spFFBS: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning
 
-Provides functions for the Forward Filtering Backward Sampling (FFBS)
+Implementation of the Forward Filtering Backward Sampling (FFBS)
 algorithm with Dynamic Bayesian Predictive Stacking (DYNBPS) integration
 for multivariate spatiotemporal models, as introduced in "Adaptive
 Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian

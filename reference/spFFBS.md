@@ -20,7 +20,8 @@ spFFBS(
   L = 200,
   tnew = NULL,
   spatial = NULL,
-  num_threads = 1
+  num_threads = 1,
+  verbose = TRUE
 )
 ```
 
@@ -80,7 +81,11 @@ spFFBS(
 
 - num_threads:
 
-  Number of cores for parallel computing (default: 1) .
+  Number of cores for parallel computing (default: 1)
+
+- verbose:
+
+  Logical; print progress messages to the console? (default: TRUE)
 
 ## Value
 
@@ -89,8 +94,6 @@ A list with the components executed according to the flags.
 ## Examples
 
 ``` r
-# \donttest{
-
 n <- 50
 t <- 5
 p <- 2
@@ -118,7 +121,7 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Building parameter grid ... OK ( 1 models )
 #> 
 #> Running Forward Filtering (FF)...
-#> 0.004 sec elapsed
+#> 0.003 sec elapsed
 #> FF completed.
 #> 
 #> Computing stacking weights ...
@@ -136,15 +139,15 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> Using SERIAL backend (foreach sequential)
 #> 
 #> Evaluating model scores and optimizing weights...
-#> Weight computation: 0.031 sec elapsed
+#> Weight computation: 0.026 sec elapsed
 #> 
 #>  Weight matrix computed successfully.
 #>    Dimensions:  50 x 1 
 #> 
 #> ====================================================
 #> 
-#> Total time: 0.039 sec elapsed
-#> 0.039 sec elapsed
+#> Total time: 0.033 sec elapsed
+#> 0.033 sec elapsed
 #> Global weights computed.
 #> 
 #> ====================================================
@@ -152,5 +155,4 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> ====================================================
 #> 
 
-# }
 ```

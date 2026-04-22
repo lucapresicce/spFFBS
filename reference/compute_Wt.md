@@ -7,7 +7,7 @@ parallelization.
 ## Usage
 
 ``` r
-compute_Wt(out_FF, tau, phi, parallel = FALSE)
+compute_Wt(out_FF, tau, phi, parallel = FALSE, verbose = TRUE)
 ```
 
 ## Arguments
@@ -27,6 +27,10 @@ compute_Wt(out_FF, tau, phi, parallel = FALSE)
 - parallel:
 
   Logical; use parallel backend (foreach + doParallel)? Default FALSE.
+
+- verbose:
+
+  Logical; print progress messages to the console? Default TRUE.
 
 ## Value
 

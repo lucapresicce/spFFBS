@@ -11,7 +11,7 @@ forecasting, and spatial interpolation."><meta property="og:image" content="http
 
     <a class="navbar-brand me-2" href="../index.html">spFFBS</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,8 @@ forecasting, and spatial interpolation.</p>
 <span>  L <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  tnew <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  spatial <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  num_threads <span class="op">=</span> <span class="fl">1</span></span>
+<span>  num_threads <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -119,7 +120,11 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 
 
 <dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
-<dd><p>Number of cores for parallel computing (default: 1) .</p></dd>
+<dd><p>Number of cores for parallel computing (default: 1)</p></dd>
+
+
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>Logical; print progress messages to the console? (default: TRUE)</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -129,9 +134,7 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
 <span class="r-in"><span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">5</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
 <span class="r-in"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
@@ -158,7 +161,7 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Building parameter grid ... OK ( 1 models )</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Running Forward Filtering (FF)...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.004 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.003 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FF completed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing stacking weights ...</span>
@@ -176,15 +179,15 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Using SERIAL backend (foreach sequential)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Evaluating model scores and optimizing weights...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Weight computation: 0.031 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weight computation: 0.026 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Weight matrix computed successfully.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Dimensions:  50 x 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Total time: 0.039 sec elapsed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.039 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total time: 0.033 sec elapsed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.033 sec elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Global weights computed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
@@ -192,7 +195,6 @@ list(crd = , crdtilde = , Xtilde = )</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ====================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
