@@ -146,8 +146,8 @@ res <- spFFBS(Y = Y, G = G, P = P, D = D, grid = hyperpar, prior = priors)
 #> 
 #> ====================================================
 #> 
-#> Total time: 0.036 sec elapsed
-#> 0.037 sec elapsed
+#> Total time: 0.035 sec elapsed
+#> 0.036 sec elapsed
 #> Global weights computed.
 #> 
 #> ====================================================
