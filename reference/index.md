@@ -2,7 +2,7 @@
 
 ## All functions
 
-- [`sample_index()`](https://lucapresicce.github.io/spFFBS/reference/sample_index.md)
-  : Function to sample integers (index)
+- [`make_prior()`](https://lucapresicce.github.io/spFFBS/reference/make_prior.md)
+  : Convert a full prior covariance matrix to block form for spFFBS
 - [`spFFBS()`](https://lucapresicce.github.io/spFFBS/reference/spFFBS.md)
-  : spFFBS: Spatiotemporal Bayesian Pipeline (friendly interface)
+  : spFFBS: Spatiotemporal Bayesian Pipeline (optimised)

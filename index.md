@@ -24,6 +24,7 @@ Supplemental material.
 If installing from CRAN, use the following.
 
 ``` r
+
 install.packages("spFFBS")
 ```
 
@@ -32,6 +33,7 @@ command in R. We use the `devtools` R package to install. Then, check
 for its presence on your device, otherwise install it:
 
 ``` r
+
 if (!require(devtools)) {
   install.packages("devtools", dependencies = TRUE)
 }
@@ -41,6 +43,7 @@ Once you have installed *devtools*, we can proceed. Let’s install the
 `spFFBS` package!
 
 ``` r
+
 devtools::install_github("lucapresicce/spFFBS")
 ```
 
@@ -49,6 +52,7 @@ devtools::install_github("lucapresicce/spFFBS")
 Once successfully installed, load the library in R.
 
 ``` r
+
 library(spFFBS)
 ```
 
@@ -57,8 +61,8 @@ feasible*** Bayesian spatiotemporal modeling!
 
 ## Contacts
 
-|            |                                                                                                                                                                                                                 |
-|:-----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Author     |                                                                                  Luca Presicce (<l.presicce@campus.unimib.it>)                                                                                  |
-| Maintainer |                                                                                  Luca Presicce (<l.presicce@campus.unimib.it>)                                                                                  |
-| Reference  | [**Luca Presicce**](https://lucapresicce.github.io/) and Sudipto Banerjee (2026+) *“[Adaptive Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling](https://arxiv.org/abs/2602.08544)”* |
+|  |  |
+|:---|:--:|
+| Author | Luca Presicce (<l.presicce@campus.unimib.it>) |
+| Maintainer | Luca Presicce (<l.presicce@campus.unimib.it>) |
+| Reference | [**Luca Presicce**](https://lucapresicce.github.io/) and Sudipto Banerjee (2026+) *“[Adaptive Markovian Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling](https://arxiv.org/abs/2602.08544)”* |

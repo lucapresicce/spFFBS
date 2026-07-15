@@ -1,37 +1,35 @@
-# compute_Wt: Dynamic Bayesian Predictive Stacking Weights
+# Compute dynamic Bayesian predictive stacking weights (v2)
 
-Computes predictive stacking weights from the forward-filter objects.
-Provides a simplified and user-friendly interface with optional
-parallelization.
+Calls `compute_Wt_cpp_v2()` directly - no foreach overhead.
 
 ## Usage
 
 ``` r
-compute_Wt(out_FF, tau, phi, parallel = FALSE, verbose = TRUE)
+compute_Wt(out_FF, tau, phi, n_threads = 1L, verbose = TRUE)
 ```
 
 ## Arguments
 
 - out_FF:
 
-  Output of spFF3 (list of filtering results).
+  Output of `spFF3_v2`.
 
 - tau:
 
-  Vector of tau grid values (only used for column naming).
+  Numeric vector of tau grid values (for column names only).
 
 - phi:
 
-  Vector of phi grid values (only used for column naming).
+  Numeric vector of phi grid values (for column names only).
 
-- parallel:
+- n_threads:
 
-  Logical; use parallel backend (foreach + doParallel)? Default FALSE.
+  Number of OpenMP threads (default 1).
 
 - verbose:
 
-  Logical; print progress messages to the console? Default TRUE.
+  Logical; print progress? Default TRUE.
 
 ## Value
 
-Matrix of weights of size n x J
+n x J weight matrix.

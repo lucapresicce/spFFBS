@@ -9,6 +9,7 @@ documentation, and functions help.
 ### Working packages
 
 ``` r
+
 library(spFFBS)
 library(spBPS)
 ```
@@ -19,6 +20,7 @@ We generate data from the model detailed in Equation (1) (Presicce and
 Banerjee 2026), over a unit square.
 
 ``` r
+
 # Dimensions
 tmax <- 25
 tnew <- 5
@@ -97,6 +99,7 @@ V <- a*diag((n))
 ### Setting priors and hyperparameters
 
 ``` r
+
 # Priors
 m0     <- matrix(0, n+p, q)
 C0 <- rbind( cbind(diag(0.005, p), matrix(0, p, n)), cbind(matrix(0, n, p), K) )
@@ -116,24 +119,27 @@ Posterior inference, forecast and spatial interpolation call (using 1
 computing core):
 
 ``` r
-out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
-                      grid = par_grid, 
+
+out <- spFFBS::spFFBS(Y = Y, X = X[,,1:tmax], D = D,
+                      grid = par_grid,
                       prior = prior,
                       L = 200,
-                      do_BS = T, 
-                      do_forecast = T, 
+                      do_BS = TRUE,
+                      do_forecast = TRUE,
                       tnew = tnew,
-                      do_spatial = T,
+                      X_all = X,
+                      do_spatial = TRUE,
                       spatial = list(crd = crd,
                                      crdtilde = crdtilde,
-                                     Xtilde = Xtilde,
+                                     Xtilde = Xtilde[,,tmax+tnew],
                                      t = tmax+tnew),
-                      num_threads = 1)
+                      n_threads = 1)
 ```
 
 ### Beta posterior inference
 
 ``` r
+
 theta_post <- sapply(1:tmax, function(t){ out$BS[[t]] }, simplify = "array")
 beta_post <- theta_post[1:p, 1:q,,]
 ```
@@ -143,6 +149,7 @@ beta_post <- theta_post[1:p, 1:q,,]
 ### Sigma posterior inference
 
 ``` r
+
 # Global weights
 Wglobal <- out$Wglobal
 J <- nrow(Wglobal)
@@ -163,6 +170,7 @@ Sigma_map <- apply(Sigma_post, c(1,2), median)
 ### Multivariate outcome temporal forecasts
 
 ``` r
+
 Y_forc <- out$forecast$Y_pred
 ```
 
@@ -174,7 +182,8 @@ Spatial interpolation for unobserved locations at future time points,
 here time point 30
 
 ``` r
-Y_pred <- sapply(1:L, function(l){out$spatial[[1]][[l]][1:u,]}, simplify = "array")
+
+Y_pred <- out$spatial[[1]]$Y
 ```
 
 ![](tutorial_files/figure-html/unnamed-chunk-14-1.png)
@@ -183,5 +192,5 @@ Y_pred <- sapply(1:L, function(l){out$spatial[[1]][[l]][1:u,]}, simplify = "arra
 
 Presicce, Luca, and Sudipto Banerjee. 2026. “Adaptive Markovian
 Spatiotemporal Transfer Learning in Multivariate Bayesian Modeling.”
-*arXiv Preprint*, arXiv:2602.08544.
+*arXiv Preprint*, preprint, arXiv:2602.08544.
 <https://doi.org/10.48550/arXiv.2602.08544>.
