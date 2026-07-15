@@ -1,6 +1,6 @@
 Package: spFFBS
 Title: Spatiotemporal Propagation for Multivariate Bayesian Dynamic Learning
-Version: 0.0-2
+Version: 1.0-1
 Authors@R: 
     person("Luca", "Presicce", , "l.presicce@campus.unimib.it", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0005-7062-3523"))
@@ -11,8 +11,6 @@ LinkingTo:
 Imports:
     spBPS,
     Rcpp (>= 1.1.1),
-    foreach,
-    tictoc,
     abind
 Suggests:
     doParallel,

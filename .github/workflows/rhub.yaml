@@ -5,33 +5,43 @@
 # rhub::rhub_setup()
 #
 # It is unlikely that you need to modify this file manually.
+
 name: R-hub
-run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
+run-name: >-
+  ${{ github.event.inputs.id || format('Manual run by @{0}', github.triggering_actor) }}:
+  ${{ github.event.inputs.name || github.event.inputs.config }}
+
 on:
   workflow_dispatch:
     inputs:
       config:
-        description: 'A comma separated list of R-hub platforms to use.'
+        description: >-
+          Comma-separated list of R-hub platforms to use.
+          Full list: https://r-hub.github.io/containers/
         type: string
         default: 'linux,windows,macos'
       name:
-        description: 'Run name. You can leave this empty now.'
+        description: 'Run name. You can leave this empty.'
         type: string
       id:
-        description: 'Unique ID. You can leave this empty now.'
+        description: 'Unique ID. You can leave this empty.'
         type: string
+
 jobs:
+
   setup:
     runs-on: ubuntu-latest
     outputs:
       containers: ${{ steps.rhub-setup.outputs.containers }}
       platforms: ${{ steps.rhub-setup.outputs.platforms }}
+
     steps:
     # NO NEED TO CHECKOUT HERE
     - uses: r-hub/actions/setup@v1
       with:
         config: ${{ github.event.inputs.config }}
       id: rhub-setup
+
   linux-containers:
     needs: setup
     if: ${{ needs.setup.outputs.containers != '[]' }}
@@ -43,6 +53,7 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.containers) }}
     container:
       image: ${{ matrix.config.container }}
+
     steps:
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/platform-info@v1
@@ -57,6 +68,7 @@ jobs:
         with:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
+
   other-platforms:
     needs: setup
     if: ${{ needs.setup.outputs.platforms != '[]' }}
@@ -66,6 +78,7 @@ jobs:
       fail-fast: false
       matrix:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
+
     steps:
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/setup-r@v1
@@ -80,14 +93,6 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      - name: Update Rcpp on Windows
-        if: runner.os == 'Windows'
-        run: install.packages("Rcpp")
-        shell: Rscript {0}
-      - name: Update Rcpp on macOS
-        if: runner.os == 'macOS'
-        run: install.packages("Rcpp")
-        shell: Rscript {0}
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}

@@ -131,19 +131,20 @@ par_grid <- list(tau = alfa_seq, phi = phi_seq)
 ### Dynamic BPS fit
 Posterior inference, forecast and spatial interpolation call (using 1 computing core):
 ```{r, results=F}
-out <- spFFBS::spFFBS(Y = Y, G = G, P = P, D = D,
-                      grid = par_grid, 
+out <- spFFBS::spFFBS(Y = Y, X = X[,,1:tmax], D = D,
+                      grid = par_grid,
                       prior = prior,
                       L = 200,
-                      do_BS = T, 
-                      do_forecast = T, 
+                      do_BS = TRUE,
+                      do_forecast = TRUE,
                       tnew = tnew,
-                      do_spatial = T,
+                      X_all = X,
+                      do_spatial = TRUE,
                       spatial = list(crd = crd,
                                      crdtilde = crdtilde,
-                                     Xtilde = Xtilde,
+                                     Xtilde = Xtilde[,,tmax+tnew],
                                      t = tmax+tnew),
-                      num_threads = 1)
+                      n_threads = 1)
 ```
 
 ### Beta posterior inference
@@ -318,7 +319,7 @@ par(oldpar)
 ### Unobserved spacetime-points interpolation
 Spatial interpolation for unobserved locations at future time points, here time point `r tmax+tnew`
 ```{r}
-Y_pred <- sapply(1:L, function(l){out$spatial[[1]][[l]][1:u,]}, simplify = "array")
+Y_pred <- out$spatial[[1]]$Y
 ```
 
 
