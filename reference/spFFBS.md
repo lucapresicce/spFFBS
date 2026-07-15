@@ -178,10 +178,10 @@ res <- spFFBS(
 #> Parameter grid: 4 models | n=50 | T=10 | p=2
 #> 
 #> [ 1/4 ] Forward Filtering ...
-#>        Done (0.04 s)
+#>        Done (0.03 s)
 #> 
 #> [ 2/4 ] Computing stacking weights ...
-#>        Done (0.00 s)
+#>        Done (0.01 s)
 #> 
 #> [ 3/4 ] Backward Sampling skipped.
 #> 

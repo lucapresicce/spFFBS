@@ -10,8 +10,8 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/spFFBS?color=green)](ht
 This package provides the implementation of the Forward Filtering
 Backward Sampling (FFBS) algorithm with Dynamic Bayesian Predictive
 Stacking (DYNBPS) integration for multivariate spatiotemporal models, as
-introduced in *“[Adaptive Markovian Spatiotemporal Transfer Learning in
-Multivariate Bayesian Modeling](https://arxiv.org/abs/2602.08544)”
+introduced in *“[Dynamic Bayesian Predictive Stacking via Markovian
+Spatiotemporal Propagation](https://arxiv.org/abs/2602.08544)”
 ([**Presicce**](https://lucapresicce.github.io/) and Banerjee, 2026+)*.
 To guarantee the reproducibility of scientific results, in the
 [Markovian-Spatiotemporal-Propagation](https://github.com/lucapresicce/Markovian-Spatiotemporal-Propagation)
