@@ -1,3 +1,23 @@
+## Resubmission spFFBS (version 1.0-1)
+
+This is a resubmission incorporating major performance improvements to the
+C++ backend and updated R interface.
+
+1. **New C++ backend** (`FFBS-DYNBPS-struct-v2.cpp`): complete rewrite of
+the forward filter, backward sampler, and weight computation with block
+matrix structure, OpenMP parallelism over posterior samples, and native
+C++ samplers removing dependencies.
+
+2. **New R interface**: `spFFBS()` now accepts `X` (n×p×T covariate array)
+and block-form system matrix `G_beta` (p×p) + scalar `rho` instead of the 
+full `G` cube and `P` observation matrix. Helper `make_prior()` provided 
+for backward compatibility.
+
+3. **Removed dependencies**: `foreach` and `tictoc` removed from Imports. 
+`mniw` moved to Suggests (used only in vignette data generation).
+
+4. **Vignette updated** to use the new interface.
+
 ## Resubmission spFFBS (version 0.0-2)
 
 This is a resubmission addressing the feedback from the CRAN reviewer (Konstanze Lauseker, 2026-04-21). Changes made:
